@@ -175,7 +175,7 @@ function Usuarios() {
                       <tr key={cedula+key} className="hover:bg-blue-gray-50 " >
                         <td className={className}>
                           <Typography className="text-md font-semibold text-blue-gray-600">
-                            V-{cedula}
+                            {cedula}
                           </Typography>
                         </td>
                         <td  className={`${className} cursor-pointer`} onClick={()=>{historial_usuario(cedula)}}>
