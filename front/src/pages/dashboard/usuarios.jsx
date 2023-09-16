@@ -36,8 +36,8 @@ function Usuarios() {
 
   const filterData = () => {
     return todosUsuarios.filter((data) => {
-      // const hasMatchInTipo = data.Tarjeta.Tipo.nombre.includes(tipoFilter);
-      // const hasMatchInCarrera = data.Tarjeta.Carrera.nombre.includes(carreraFilter);
+      const hasMatchInTipo = data.Tarjeta.some(tarjeta => tarjeta.Tipo.nombre.includes(tipoFilter));
+      const hasMatchInCarrera = data.Tarjeta.some(tarjeta => tarjeta.Carrera.nombre.includes(carreraFilter));
 
       const hasMatchInEstatus = data.estatus.includes(estatusFilter);
 
@@ -49,7 +49,7 @@ function Usuarios() {
         apellido_y_nombre.toLowerCase().includes(buscar.toLowerCase()) ||
         data.cedula.toString().includes(buscar)
   
-      return /*hasMatchInTipo && hasMatchInCarrera &&*/ hasMatchInEstatus  && hasMatchInBuscar  ;
+      return hasMatchInTipo && hasMatchInCarrera && hasMatchInEstatus  && hasMatchInBuscar  ;
     });
   };
 
