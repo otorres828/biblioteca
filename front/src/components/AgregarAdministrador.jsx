@@ -3,34 +3,29 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import axios from './../../api/axios'
+import axios from './../api/axios'
 import { useSnackbar } from 'notistack';
 
-function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obtener_visitantes,headers }) {
-  const [nombres, setNombres] = useState("");
-  const [apellidos, setApellidos] = useState("");
-  const [cedula, setCedula] = useState("");
-  const [cedula_vieja, setCedula_vieja] = useState("");
+function AgregarAdministrador({ nuevo = null, open, handleClose, administrador = null,obtener_administradores,headers }) {
+  const [nombre_completo, setNombre_completo] = useState("");
+  const [nick, setNick] = useState("");
+  const [permisos, setPermisos] = useState();
   const { enqueueSnackbar } = useSnackbar();
 
   const handleAgregar = () => {
-    if (nombres && apellidos && cedula) {
-      if (nuevo) {
+    if (nombre_completo && nick) {
         agregar_visitante();
-      } else {
-        actualizar_visitante();
-      }
     } else {
-      alert("Por favor, complete todos los campos");
+      alert("Por favor, complete el nick y el nombre");
     }
   };
 
   const agregar_visitante = () => {
-    axios.post('visitantes/crear',{nombres,apellidos,cedula},{ headers: headers })
+    axios.post('visitantes/crear',{nombre_completo,nick,permisos},{ headers: headers })
     .then((response)=>{
         if(response.data.exito){
             handleClose();
-            obtener_visitantes();
+            obtener_administradores();
             enqueueSnackbar("Visitante agregado con exito", { variant: "success" });
         }
         else{
@@ -39,31 +34,11 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
     })
   };
 
-  const actualizar_visitante = () => {
-    axios.post('visitantes/actualizar',{nombres,apellidos,cedula,cedula_vieja},{ headers: headers })
-    .then((response)=>{
-        if(response.data.exito){
-            handleClose();
-            obtener_visitantes();
-            enqueueSnackbar("Visitante actualizado con exito", { variant: "success" });
-        }
-        else{
-            enqueueSnackbar(response.data.error, { variant: "warning" });
-        }
-    })
-  };
-
   useEffect(()=>{
-    if(usuario){
-        setNombres(usuario.nombres)
-        setApellidos(usuario.apellidos)
-        setCedula(usuario.cedula)
-        setCedula_vieja(usuario.cedula)
-    }else{
-        setNombres("")
-        setApellidos("")
-        setCedula("")
-        setCedula_vieja("")
+    if(administrador.id){
+      setNick(administrador.nick)
+      setNombre_completo(administrador.nombre_completo)
+      setPermisos(administrador.permisos)
     }
   },[])
 
@@ -77,48 +52,41 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
         aria-labelledby="crear-visitante"
         aria-describedby="crear-visitante"
       >
-        <DialogTitle id="crear-visitante">{nuevo ? 'Agregar' : 'Actualizar'} Visitante</DialogTitle>
+        <DialogTitle id="crear-visitante">{nuevo ? 'Agregar' : 'Actualizar'} Administrador</DialogTitle>
         <DialogContent>
           <form className="w-full ">
             <div className="flex flex-wrap -mx-3">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
-                  Nombres del Visitante
+                  Nombre
                 </label>
                 <input
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="text"
                   placeholder="Escriba los nombres del visitante"
                   required
-                  value={nombres}
-                  onChange={(e) => setNombres(e.target.value)}
+                  value={nombre_completo}
+                  onChange={(e) => setNombre_completo(e.target.value)}
                 />
               </div>
               <div className="w-full md:w-1/2 px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                  Apellidos del Visitante
+                  Nick
                 </label>
                 <input
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="text"
                   placeholder="Escriba los apellidos del visitante"
                   required
-                  value={apellidos}
-                  onChange={(e) => setApellidos(e.target.value)}
+                  value={nick}
+                  onChange={(e) => setNick(e.target.value)}
                 />
               </div>
               <div className="w-full mt-4 px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-cedula">
-                  Cédula del Visitante
+                  Permisos
                 </label>
-                <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  type="text"
-                  placeholder="Escriba la cédula del visitante"
-                  required
-                  value={cedula}
-                  onChange={(e) => setCedula(e.target.value)}
-                />
+               
               </div>
             </div>
           </form>
@@ -132,4 +100,4 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
   );
 }
 
-export default AgregarVisitante;
+export default AgregarAdministrador;

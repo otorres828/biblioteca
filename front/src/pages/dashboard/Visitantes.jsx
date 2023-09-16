@@ -9,7 +9,7 @@ import axios from './../../api/axios'
 import { useEffect, useState } from "react";
 import ReactHTMLTableToExcel from 'react-html-table-to-excel-3';
 import HistorialUsuario from "./../../components/graficos/HistorialUsuario";
-import AgregarVisitante from "./../../components/graficos/AgregarVisitante";
+import AgregarVisitante from "./../../components/AgregarVisitante";
 
 function Visitantes() {
   const [todosUsuarios, setTodosUsuarios] = useState([]);

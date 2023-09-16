@@ -8,6 +8,7 @@ import {
     Switch,
   } from "@material-tailwind/react";
 import { useSnackbar } from "notistack";
+import AgregarAdministrador from "../../components/AgregarAdministrador";
   
   function Administradores() {
     const { enqueueSnackbar } = useSnackbar();
@@ -17,7 +18,7 @@ import { useSnackbar } from "notistack";
     const [open, setOpen] = useState(false);
     const [agregar, setAgregar] = useState(false);
     const token_biblioteca = localStorage.getItem("token_biblioteca");
-    
+
     const headers ={
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -35,9 +36,10 @@ import { useSnackbar } from "notistack";
       obtener_administradores();
     },[nuevo])
   
-    function agregar_administrador(administrador=null){
+    function agregar_administrador(id=null,nombre_completo=null,nick=null,permisos=[]){
+      const administrador = {id,nombre_completo,nick,permisos}
       setAgregar(true);
-      if(administrador){
+      if(administrador.id){
           setNuevo(false)
           setAdministrador(administrador)
       }
@@ -128,7 +130,7 @@ import { useSnackbar } from "notistack";
                           </td>
 
                           <td className={className}>
-                            <button className="bg-blue-500 font-semibold rounded-lg p-3 text-white cursor-pointer" onClick={() => { agregar_administrador(id) }}>
+                            <button className="bg-blue-500 font-semibold rounded-lg p-3 text-white cursor-pointer" onClick={() => { agregar_administrador(id,nombre_completo,nick,permisos) }}>
                               Editar
                             </button>
                           </td>
@@ -145,7 +147,9 @@ import { useSnackbar } from "notistack";
         </Card>
   
         {/* MODAL PARA AGREGAR VISITANTE */}
-        
+      {agregar && (
+          <AgregarAdministrador nuevo={nuevo} open={agregar} administrador={administrador} handleClose={handleClose} obtener_administradores={obtener_administradores} headers={headers}/>
+      )}
       </div>
     );
   }
