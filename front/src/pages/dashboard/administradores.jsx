@@ -7,14 +7,17 @@ import {
     Typography,
     Switch,
   } from "@material-tailwind/react";
+import { useSnackbar } from "notistack";
   
   function Administradores() {
+    const { enqueueSnackbar } = useSnackbar();
     const [administradores, setAdministradores] = useState([]);
     const [administrador, setAdministrador] = useState(null);
     const [nuevo, setNuevo] = useState(true);
     const [open, setOpen] = useState(false);
     const [agregar, setAgregar] = useState(false);
     const token_biblioteca = localStorage.getItem("token_biblioteca");
+    
     const headers ={
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -51,7 +54,7 @@ import {
       console.log(id)
       axios.get('administradores/cambiar_estado/'+id,{headers:headers}).
       then((response)=>{
-        console.log(response.data)
+          enqueueSnackbar('Estatus actualizado con exito', { variant: 'success' });
       })
     }
   
@@ -94,7 +97,7 @@ import {
                       }`;
 
                       return (
-                        <tr key={key} className="hover:bg-blue-gray-50 cursor-pointer">
+                        <tr key={key} className="hover:bg-blue-gray-50">
                           <td className={className}>
                             <Typography className="text-lg w-full font-semibold text-blue-gray-600">
                               {nombre_completo}
