@@ -9,11 +9,11 @@ const login = async (req, res) => {
     const {nick, clave} = req.body;
 
     // Consultar el modelo Administrador utilizando el nick proporcionado
-    const administrador = await Administrador.findOne({where:{nick: nick} });
+    const administrador = await Administrador.findOne({where:{nick: nick,estatus:1} });
 
     if (!administrador) {
         // Si no se encuentra el administrador, devuelve un error
-        return res.status(200).json({ error: "Administrador no encontrado" });
+        return res.status(200).json({ error: "Administrador no disponible" });
     }
     // Comparar la clave proporcionada con la clave almacenada en el modelo Administrador
     const isValidPass = await comparePassword(clave, administrador.clave);

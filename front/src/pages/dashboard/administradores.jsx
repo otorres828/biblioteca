@@ -1,23 +1,17 @@
+import { useEffect, useState } from "react";
+import axios from './../../api/axios'
 import {
     Card,
     CardHeader,
     CardBody,
     Typography,
-    Chip,
+    Switch,
   } from "@material-tailwind/react";
-  import axios from './../../api/axios'
-  import { useEffect, useState } from "react";
-  import ReactHTMLTableToExcel from 'react-html-table-to-excel-3';
-  import HistorialUsuario from "./../../components/graficos/HistorialUsuario";
-  import AgregarVisitante from "./../../components/graficos/AgregarVisitante";
   
   function Administradores() {
     const [administradores, setAdministradores] = useState([]);
     const [administrador, setAdministrador] = useState(null);
     const [nuevo, setNuevo] = useState(true);
-    const [buscar, setBuscar] = useState("");
-    const [currentPage, setCurrentPage] = useState(0);
-    const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [open, setOpen] = useState(false);
     const [agregar, setAgregar] = useState(false);
     const token_biblioteca = localStorage.getItem("token_biblioteca");
@@ -28,9 +22,8 @@ import {
     }
     function obtener_administradores() {
       axios
-        .get("/administradores/todos_administradores", { headers: headers,})
+        .get("/administradores/todos_administradores", { headers: headers})
         .then((response) => {
-          console.log(response.data)
           setAdministradores(response.data);
         });
     }
@@ -54,6 +47,13 @@ import {
       setAdministrador(null);
     };
   
+    function cambiarEstado(id){
+      console.log(id)
+      axios.get('administradores/cambiar_estado/'+id,{headers:headers}).
+      then((response)=>{
+        console.log(response.data)
+      })
+    }
   
     return (
       <div className="mt-12 mx-3 md:mx-8 mb-8 flex flex-col gap-12">
@@ -94,7 +94,7 @@ import {
                       }`;
 
                       return (
-                        <tr key={id} className="hover:bg-blue-gray-50 cursor-pointer">
+                        <tr key={key} className="hover:bg-blue-gray-50 cursor-pointer">
                           <td className={className}>
                             <Typography className="text-lg w-full font-semibold text-blue-gray-600">
                               {nombre_completo}
@@ -109,18 +109,18 @@ import {
 
                           <td className={className}>
                             {permisos.map((permiso) => (
-                              <>
-                              <span key={permiso.id}>{permiso.nombre}</span><br/>
-                              </>
+                              <div key={permiso.id}>
+                                <span >{permiso.nombre}</span>
+                              </div>
                             ))}
                           </td>
                  
                           <td className={className} >
-                            <Chip
-                              variant="gradient"
-                              color={estatus == 1 ? "green" : "red"}
-                              value={estatus == 1 ? "ACTIVO" : "INACTIVO"}
-                              className="py-0.5 px-2 text-[11px] font-medium"
+                            <Switch
+                              id={id}
+                              value={estatus} // El valor del switch es controlado por el estado 'cambiar'
+                              onChange={()=>{cambiarEstado(id)}} // Al hacer click, se invierte el valor de 'cambiar'
+                              defaultChecked={estatus==1 ? true: false}
                             />
                           </td>
 

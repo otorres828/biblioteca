@@ -28,12 +28,12 @@ export function Home() {
               <h5 className='mr-5'>
               Cambiar Aspecto
               </h5>
-              { <Switch
+               <Switch
                     id="control-acceso"
                     value={cambiar} // El valor del switch es controlado por el estado 'cambiar'
                     onChange={()=>{cambiarAspecto()}} // Al hacer click, se invierte el valor de 'cambiar'
                     defaultChecked={cambiar}
-                  />}
+                  />
         </div>
         { cambiar ? 
           <LectoresSegundoAspecto token_biblioteca={token_biblioteca}/>

@@ -64,10 +64,31 @@ const todos_administradores = async (req, res) => {
     res.json(administradores);
 };
   
+//cambiar estatus de administrador
+const cambiar_estado = async (req, res) => {
+    const {id} =req.params;
+    try {
+      const admin = await Administrador.findOne({ where: { id: id } });
+  
+      let nuevoEstatus;
+      if (admin.estatus == 1) {
+        nuevoEstatus = 2;
+      } else {
+        nuevoEstatus = 1;
+      }
+  
+      await admin.update({ estatus: nuevoEstatus });
+  
+      res.json(nuevoEstatus === 2);
+    } catch (error) {
+      res.json('Error al realizar la consulta');
+    }
+  };
   
 module.exports = {
                     permisos,
                     permisos_administrador,
                     crear_administrador,
-                    todos_administradores
+                    todos_administradores,
+                    cambiar_estado
                     };
