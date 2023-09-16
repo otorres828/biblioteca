@@ -131,7 +131,7 @@ const historial_usuario_particular = async (req, res) => {
                 }
             
         ],
-        order: [['fecha', 'asc']]
+        order: [['fecha', 'desc']]
     });
     historiales.push(...historial);
     }
