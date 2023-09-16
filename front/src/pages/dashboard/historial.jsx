@@ -295,7 +295,7 @@ function Historial() {
                       >
                         <td className={className}>
                           <Typography className="text-xl font-semibold text-blue-gray-600">
-                            V-{cedula}
+                            {cedula}
                           </Typography>
                         </td>
 

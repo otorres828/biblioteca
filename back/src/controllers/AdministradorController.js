@@ -116,6 +116,11 @@ const crear = async (req, res) => {
   
     res.status(200).send({mensaje:'Administrador actualizado con exito'});
   }else{
+    const admin = await Administrador.findOne({where:{nick: nick} });
+    if (admin) {
+        // Si encuentra el administrador, devuelve un error
+        return res.status(200).json({ error: "Ya existe este el nick" });
+    }
     const claveEncriptada = await bcrypt.hash(clave, saltRounds);
     var administrador = await Administrador.create({nombre_completo,nick,clave: claveEncriptada});
     permisos.forEach(async (permiso) => {
