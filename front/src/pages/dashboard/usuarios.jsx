@@ -37,7 +37,10 @@ function Usuarios() {
   const filterData = () => {
     return todosUsuarios.filter((data) => {
       const hasMatchInTipo = data.Tarjeta.some(tarjeta => tarjeta.Tipo.nombre.includes(tipoFilter));
-      const hasMatchInCarrera = data.Tarjeta.some(tarjeta => tarjeta.Carrera.nombre.includes(carreraFilter));
+      if(data.Tarjeta.Carrera)
+        var hasMatchInCarrera = data.Tarjeta.some(tarjeta => tarjeta.Carrera.nombre.includes(carreraFilter));
+      else
+        var hasMatchInCarrera = true;
 
       const hasMatchInEstatus = data.estatus.includes(estatusFilter);
 
