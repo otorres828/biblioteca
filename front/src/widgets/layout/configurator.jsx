@@ -12,23 +12,23 @@ import {
   setFixedNavbar,
 } from "../../context";
 import AccesoManual from "./../../pages/dashboard/acceso-manual";
-import { useSnackbar } from "notistack";
-import { useNavigate } from "react-router-dom";
+// import { useSnackbar } from "notistack";
+// import { useNavigate } from "react-router-dom";
 import axios from './../../api/axios'
 
 export function Configurator() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { openConfigurator, fixedNavbar } =controller;
   const [permisos,setPermisos] = useState();
-  const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
+  // const { enqueueSnackbar } = useSnackbar();
+  // const navigate = useNavigate();
   const token_biblioteca= localStorage.getItem('token_biblioteca');
 
-  function cerrarSesion(){
-    localStorage.removeItem('token_biblioteca');
-    enqueueSnackbar("Ha cerrado sesion con exito", { variant: "success" });
-    navigate("/login");
-  }
+  // function cerrarSesion(){
+  //   localStorage.removeItem('token_biblioteca');
+  //   enqueueSnackbar("Ha cerrado sesion con exito", { variant: "success" });
+  //   navigate("/login");
+  // }
 
   useEffect(()=>{
     const headers = {
@@ -83,7 +83,7 @@ export function Configurator() {
               onChange={() => setFixedNavbar(dispatch, !fixedNavbar)}
             />
           </div>          
-          <hr />   
+          {/* <hr />   
            <li className="text-center">
                 <Button
                   className="flex items-center gap-4 px-4 capitalize text-white text-center"
@@ -96,7 +96,7 @@ export function Configurator() {
                         Cerrar Sesion
                       </Typography>
               </Button>  
-          </li>
+          </li> */}
         </div>    
       </div>
     </aside>

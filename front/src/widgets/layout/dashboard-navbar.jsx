@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useLocation, Link, NavLink } from "react-router-dom";
 import {
   Navbar,
@@ -19,7 +20,8 @@ import {
 } from "../../context";
 import { Tooltip } from "@mui/material";
 import axios from './../../api/axios'
-import { useEffect, useState } from "react";
+import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
 
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -27,11 +29,18 @@ export function DashboardNavbar() {
   const { pathname } = useLocation();
   const parts = pathname.split("/").filter((el) => el !== "");
   const [permisos,setPermisos] = useState();
-  
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
   const layout = parts[0];  // obtiene el valor después del primer "/"
   const page = parts[1];    // obtiene el valor después del segundo "/"
   const page2 = parts[2];    // obtiene el valor después del segundo "/"
   
+  function cerrarSesion(){
+    localStorage.removeItem('token_biblioteca');
+    enqueueSnackbar("Ha cerrado sesion con exito", { variant: "success" });
+    navigate("/login");
+  }
+
   useEffect(()=>{
     const token_biblioteca= localStorage.getItem('token_biblioteca');
     const headers = {
@@ -157,6 +166,12 @@ export function DashboardNavbar() {
                       Visitantes
                   </MenuItem>            
                 </NavLink>}
+                <hr/>
+                  <MenuItem className="flex items-center gap-4"
+                 onClick={cerrarSesion}
+                 >
+                      Cerrar Sesion
+                  </MenuItem>            
               </MenuList>
             </Menu>
         </div>
