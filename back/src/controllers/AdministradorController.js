@@ -92,6 +92,13 @@ const crear = async (req, res) => {
   if(tipo!=='crear'){
     //obtenemos el administrador y actualizamos sus datos basicos
     const admin = await Administrador.findOne({ where: { id: id } });
+    //validamos si el nick es distinta a la que ya tenia
+    if(nick!==admin.nick){
+        //validamos que no este anteriormente
+        const admin_nick = await Administrador.findOne({ where: { nick: nick } });
+        if(admin_nick) 
+            return res.json({error:'El nick ya se encuentra en uso por otro usuario'}); 
+    }
     admin.nick=nick;
     admin.nombre_completo=nombre_completo;
     if(clave){
