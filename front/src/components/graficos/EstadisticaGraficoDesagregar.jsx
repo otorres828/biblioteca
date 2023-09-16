@@ -86,7 +86,7 @@ function EstadisticaGraficoDesagregar({datos}) {
                     options={chartOptions}
                     series={chartSeries}
                     type="bar"
-                    height={ 450}
+                    height={480}
                   />
               </Card>
               }

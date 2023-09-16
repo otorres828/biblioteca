@@ -340,7 +340,7 @@ const validar_tarjeta_salida = async (req, res) => {
     };
     
     if (!result.length) {
-      data.estatus = 3;
+      data.estatus = 2;
     }
   
     // crea un registro en el historial

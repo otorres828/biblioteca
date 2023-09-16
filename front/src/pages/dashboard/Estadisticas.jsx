@@ -40,11 +40,11 @@ function Estadisticas() {
   },[agregar,tiempo,intervalo,tipo_id])
   
   return (
-      <div className='md:mx-5 mt-3 mb-6'>
-         <button className="justify-end bg-green-500 hover:bg-green-700 font-semibold rounded-lg p-3 text-white cursor-pointer">Excel</button>
-         <button className="justify-end bg-red-500 hover:bg-red-700 font-semibold rounded-lg p-3 text-white cursor-pointer">Pdf</button>
+      <div className='md:mx-2 mt-3 mb-6'>
+         {/* <button className="justify-end bg-green-500 hover:bg-green-700 font-semibold rounded-lg p-3 text-white cursor-pointer">Excel</button>
+         <button className="justify-end bg-red-500 hover:bg-red-700 font-semibold rounded-lg p-3 text-white cursor-pointer">Pdf</button> */}
 
-        <div className="mt-12 mb-6 grid grid-cols-1  gap-x-6">
+        <div className="mt-6 mb-6 grid grid-cols-1  gap-x-6">
           {agregar==1 ? <EstadisticaGraficoAgregar  datos={datos} />: 
           <EstadisticaGraficoDesagregar  datos={datos} />
           }

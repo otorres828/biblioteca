@@ -40,8 +40,9 @@ function EstadisticaGraficoAgregar({datos}) {
               color='gray'
               chart={websiteViewsChart} 
               clases={true}
-              tamano={450}
+              tamano={480}
               colorxaxie={'#333335'}
+              fondo={false}
             />
             }
             

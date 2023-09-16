@@ -15,13 +15,13 @@ const SocketsAlertas = () => {
     socket.on('mensaje_entrada', (message) => {
       switch (message.estatus) {
         case 'ok':
-          enqueueSnackbar('El usuario ha sido autenticado', { variant: 'success' });
+          enqueueSnackbar(message.nombre+' ha ingresado', { variant: 'success' });
           break;
         case 'no_passed':
-          enqueueSnackbar('El usuario no tiene permisos para pasar', { variant: 'error' });
+          enqueueSnackbar('El usuario ya se encuentra dentro de la biblioteca', { variant: 'warning' });
           break;
         case 'denied':
-          enqueueSnackbar('No tiene permisos para pasar', { variant: 'warning' });
+          enqueueSnackbar('No tiene permisos para pasar', { variant: 'error' });
           break;
       }
     });
@@ -29,13 +29,13 @@ const SocketsAlertas = () => {
     socket.on('mensaje_salida', (message) => {
       switch (message.estatus) {
         case 'ok':
-          enqueueSnackbar('El usuario ha sido autenticado', { variant: 'success', vertical: 'bottom',horizontal: 'right'});
+          enqueueSnackbar(message.nombre+' ha sido salido', { variant: 'success'});
           break;
         case 'no_passed':
-          enqueueSnackbar('El usuario no tiene permisos para pasar', { variant: 'error', vertical: 'bottom',horizontal: 'right' });
+          enqueueSnackbar('El usuario no esta dentro de la biblioteca', { variant: 'warning' });
           break;
         case 'denied':
-          enqueueSnackbar('No tiene permisos para pasar', { variant: 'warning', vertical: 'bottom',horizontal: 'right' });
+          enqueueSnackbar('No tiene permisos para pasar', { variant: 'error' });
           break;
       }
     });

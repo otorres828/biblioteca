@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import PropTypes from "prop-types";
 
-const BarChart = ({id_chart,nombre_char='Ingresos', color, title=null, description=null, footer,clases=null,chart,orientacion=false ,tamano=null,colorxaxie="#fff"}) => {
+const BarChart = ({id_chart,nombre_char='Ingresos', color, title=null, description=null, footer,clases=null,chart,orientacion=false ,tamano=null,colorxaxie="#fff",fondo=true}) => {
 
   const chartOptions = {
     chart: {
@@ -103,14 +103,14 @@ const BarChart = ({id_chart,nombre_char='Ingresos', color, title=null, descripti
             height={tamano ? tamano: 230}
           />
         </CardHeader>
-        <CardBody className="p-6">
+        {fondo && <CardBody className="p-6">
           <Typography variant="h6" color="blue-gray" className={clases && "text-center"}>
             {title}
           </Typography>
           <Typography variant="small" className="font-normal text-blue-gray-600">
             {description ? description : ''}
           </Typography>
-        </CardBody>
+        </CardBody>}
         {footer && (
           <CardFooter className="border-t border-blue-gray-50 px-6 py-5">
             {footer}
