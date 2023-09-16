@@ -66,7 +66,7 @@ const todos_administradores = async (req, res) => {
   
 //cambiar estatus de administrador
 const cambiar_estado = async (req, res) => {
-    const {id} =req.params;
+    const {id} =req.param;
     try {
       const admin = await Administrador.findOne({ where: { id: id } });
   
@@ -83,12 +83,57 @@ const cambiar_estado = async (req, res) => {
     } catch (error) {
       res.json('Error al realizar la consulta');
     }
-  };
+};
+
+//crear administrador desde el cms
+const crear = async (req, res) => {
+  const {tipo}=req.params;
+  const {id,nombre_completo,nick,permisos,clave}=req.body;
+  if(tipo!=='crear'){
+    //obtenemos el administrador y actualizamos sus datos basicos
+    const admin = await Administrador.findOne({ where: { id: id } });
+    admin.nick=nick;
+    admin.nombre_completo=nombre_completo;
+    if(clave){
+      const claveEncriptada = await bcrypt.hash(clave, saltRounds);
+      admin.clave=claveEncriptada;
+    }
+    admin.save();
+
+    //ahora actualizamos sus permisos
+      await PermisoAdministrador.destroy({
+        where: {
+          administrador_id: id,
+        },
+      });
   
+      permisos.forEach(async (permiso) => {
+        await PermisoAdministrador.create({
+            administrador_id: id,
+            permiso_id: permiso.id
+        });
+    });
+  
+    res.status(200).send({mensaje:'Administrador actualizado con exito'});
+  }else{
+    const claveEncriptada = await bcrypt.hash(clave, saltRounds);
+    var administrador = await Administrador.create({nombre_completo,nick,clave: claveEncriptada});
+    permisos.forEach(async (permiso) => {
+      await PermisoAdministrador.create({
+          administrador_id: administrador.id,
+          permiso_id: permiso.id
+      });
+  });
+    res.status(200).send({mensaje:'Administrador creado con exito'});
+
+  }
+}
+
 module.exports = {
                     permisos,
                     permisos_administrador,
                     crear_administrador,
                     todos_administradores,
-                    cambiar_estado
+                    cambiar_estado,
+                    crear
                     };

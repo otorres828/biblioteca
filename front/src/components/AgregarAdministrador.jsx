@@ -3,44 +3,77 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import Switch from "@mui/material/Switch";
+import { FormControlLabel } from "@mui/material";
 import axios from './../api/axios'
 import { useSnackbar } from 'notistack';
 
-function AgregarAdministrador({ nuevo = null, open, handleClose, administrador = null,obtener_administradores,headers }) {
+function AgregarAdministrador({ nuevo = null, open, handleClose, administrador = null, obtener_administradores, headers }) {
   const [nombre_completo, setNombre_completo] = useState("");
   const [nick, setNick] = useState("");
-  const [permisos, setPermisos] = useState();
+  const [clave, setClave] = useState("");
+  const [permisos, setPermisos] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
+  const todosPermisos= [
+    {id:1,label:'Control de Acceso'},
+    {id:2,label:'Estadisticas'},
+    {id:3,label:'Historial'},
+    {id:4,label:'Usuarios'},
+    {id:5,label:'Visitantes'},
+    {id:6,label:'Acceso Manual'},
+  ];
   const handleAgregar = () => {
     if (nombre_completo && nick) {
-        agregar_visitante();
+      agregar_visitante();
     } else {
       alert("Por favor, complete el nick y el nombre");
     }
   };
 
   const agregar_visitante = () => {
-    axios.post('visitantes/crear',{nombre_completo,nick,permisos},{ headers: headers })
-    .then((response)=>{
-        if(response.data.exito){
-            handleClose();
-            obtener_administradores();
-            enqueueSnackbar("Visitante agregado con exito", { variant: "success" });
+    axios.post('administradores/' + (nuevo ? 'crear' : 'actualizar'), { id: (nuevo ? null: administrador.id),nombre_completo, nick,clave, permisos }, { headers: headers })
+    .then((response) => {
+        if (response.data.mensaje) {
+          handleClose();
+          obtener_administradores();
+          enqueueSnackbar(response.data.mensaje, { variant: "success" });
+        } else {
+          enqueueSnackbar(response.data.error, { variant: "warning" });
         }
-        else{
-            enqueueSnackbar(response.data.error, { variant: "warning" });
-        }
-    })
+      })
   };
 
-  useEffect(()=>{
-    if(administrador.id){
+  const handleSwitchChange = (permisoId) => {
+    if (permisos.some(obj => obj.id === permisoId)) {
+      // El permiso ya está en el array, eliminarlo
+      const nuevospermisos = permisos.filter((p) => p.id !== permisoId);
+      setPermisos([...nuevospermisos]);
+    } else {
+      // El permiso no está en el array, agregarlo
+      const permiso = todosPermisos.find((p) => p.id === permisoId);
+      setPermisos([...permisos, permiso]);
+    }
+  };
+  
+  
+  useEffect(() => {
+    if (administrador && administrador.id) {
       setNick(administrador.nick)
       setNombre_completo(administrador.nombre_completo)
       setPermisos(administrador.permisos)
+      setClave('')
+    }else{
+      setNick("")
+      setNombre_completo("")
+      setPermisos([])
+      setClave('')
     }
-  },[])
+  }, [administrador]);
+
+  useEffect(() => {
+  }, [permisos]);
+
 
   return (
     <>
@@ -57,7 +90,7 @@ function AgregarAdministrador({ nuevo = null, open, handleClose, administrador =
           <form className="w-full ">
             <div className="flex flex-wrap -mx-3">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                   Nombre
                 </label>
                 <input
@@ -70,7 +103,7 @@ function AgregarAdministrador({ nuevo = null, open, handleClose, administrador =
                 />
               </div>
               <div className="w-full md:w-1/2 px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                   Nick
                 </label>
                 <input
@@ -82,11 +115,37 @@ function AgregarAdministrador({ nuevo = null, open, handleClose, administrador =
                   onChange={(e) => setNick(e.target.value)}
                 />
               </div>
+
+              <div className="w-full px-3 mt-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold m-2" >
+                    Nueva Clave
+                </label>
+                <input
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    type="number"
+                    placeholder="Escriba los nombres del visitante"
+                    required
+                    value={clave}
+                    onChange={(e) => setClave(e.target.value)}
+                />
+              </div>
               <div className="w-full mt-4 px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-cedula">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                   Permisos
                 </label>
-               
+                {todosPermisos.map((permiso) => (
+                  <FormControlLabel
+                    key={permiso.id}
+                    control={
+                      <Switch
+                        checked={permisos.some((p) => p.id === permiso.id)}
+                        onChange={() => handleSwitchChange(permiso.id)}
+                      />
+                    }
+                    label={permiso.label}
+                  />
+
+                ))}
               </div>
             </div>
           </form>

@@ -82,7 +82,7 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
           <form className="w-full ">
             <div className="flex flex-wrap -mx-3">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                   Nombres del Visitante
                 </label>
                 <input
@@ -95,7 +95,7 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
                 />
               </div>
               <div className="w-full md:w-1/2 px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Apellidos del Visitante
                 </label>
                 <input
@@ -108,7 +108,7 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
                 />
               </div>
               <div className="w-full mt-4 px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-cedula">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Cédula del Visitante
                 </label>
                 <input

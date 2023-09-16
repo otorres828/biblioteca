@@ -15,7 +15,6 @@ import AgregarAdministrador from "../../components/AgregarAdministrador";
     const [administradores, setAdministradores] = useState([]);
     const [administrador, setAdministrador] = useState(null);
     const [nuevo, setNuevo] = useState(true);
-    const [open, setOpen] = useState(false);
     const [agregar, setAgregar] = useState(false);
     const token_biblioteca = localStorage.getItem("token_biblioteca");
 
@@ -24,6 +23,7 @@ import AgregarAdministrador from "../../components/AgregarAdministrador";
       "Content-Type": "application/json",
       "Authorization": `Bearer ${token_biblioteca}`
     }
+    
     function obtener_administradores() {
       axios
         .get("/administradores/todos_administradores", { headers: headers})
@@ -34,7 +34,7 @@ import AgregarAdministrador from "../../components/AgregarAdministrador";
   
     useEffect(()=>{
       obtener_administradores();
-    },[nuevo])
+    },[nuevo,administradores])
   
     function agregar_administrador(id=null,nombre_completo=null,nick=null,permisos=[]){
       const administrador = {id,nombre_completo,nick,permisos}
@@ -47,13 +47,11 @@ import AgregarAdministrador from "../../components/AgregarAdministrador";
   
     const handleClose = () => {
       setNuevo(true);
-      setOpen(false);
       setAgregar(false);
       setAdministrador(null);
     };
   
     function cambiarEstado(id){
-      console.log(id)
       axios.get('administradores/cambiar_estado/'+id,{headers:headers}).
       then((response)=>{
           enqueueSnackbar('Estatus actualizado con exito', { variant: 'success' });
@@ -68,8 +66,9 @@ import AgregarAdministrador from "../../components/AgregarAdministrador";
               Lista de Administradores
             </Typography>
           </CardHeader>
-          <CardBody className=" px-0 pt-0 pb-2">
+          <CardBody className="px-0 pt-0 pb-2">
 
+            <button className="mx-8 appearance-none block p-2 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-800 px-4 mb-3 leading-tight focus:outline-none" onClick={()=>{agregar_administrador()}}>Agregar Administrador</button>
             <div className="overflow-x-scroll">
               <table className=" w-full table-auto" id="visitantes">
                 <thead>
