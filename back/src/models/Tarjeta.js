@@ -55,9 +55,7 @@ const Tarjeta = sequelize.define('Tarjeta', {
   tableName: 'tarjetas'
 })
 
-Tarjeta.belongsTo(Usuario, {
-  foreignKey: 'cedula'
-});
+
 
 Tarjeta.belongsTo(Carrera, {
   foreignKey: 'carrera_id'

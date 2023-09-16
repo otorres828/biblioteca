@@ -44,6 +44,39 @@ const todos_usuarios = async (req, res) => {
 
 //Devuelve todos los usuarios (sin visitantes) para el modulo de usuarios
 const usuarios = async (req, res) => {
+    const usuarios = await Usuario.findAll({
+        include:[
+            {
+                model:Tarjeta,
+                where: { tipo_id: { [Op.ne]: 5 } },
+                required: true,
+                include:[
+                    {
+                        model:Tipo,
+                    },
+                    {
+                        model:Carrera,
+                    }
+                ],
+                attributes: {
+                    include: [
+                      [
+                        Sequelize.literal(
+                          `(SELECT COUNT(historiales.id) FROM historiales WHERE historiales.tarjeta_id = Tarjeta.iCardCode AND historiales.tipo = 1 AND historiales.estatus = 1)`
+                        ),
+                        'totalIngresos',
+                      ],
+                    ],
+                  },
+            }
+        ],
+        
+    });   
+    res.json(usuarios);
+};
+
+//Devuelve todos los usuarios (sin visitantes) para el modulo de usuarios
+const usuarios_copia = async (req, res) => {
     const tarjetas = await Tarjeta.findAll({
         include: [
             {
@@ -76,6 +109,7 @@ const usuarios = async (req, res) => {
     });   
     res.json(tarjetas);
 };
+
 
 //Devuelve todos los visitantes para el modulo de visitantes
 const visitantes = async (req, res) => {

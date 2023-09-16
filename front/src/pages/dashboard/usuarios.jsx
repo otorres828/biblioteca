@@ -36,20 +36,20 @@ function Usuarios() {
 
   const filterData = () => {
     return todosUsuarios.filter((data) => {
-      const hasMatchInTipo = data.Tipo.nombre.includes(tipoFilter);
-      const hasMatchInCarrera = data.Carrera.nombre.includes(carreraFilter);
+      // const hasMatchInTipo = data.Tarjeta.Tipo.nombre.includes(tipoFilter);
+      // const hasMatchInCarrera = data.Tarjeta.Carrera.nombre.includes(carreraFilter);
 
       const hasMatchInEstatus = data.estatus.includes(estatusFilter);
 
-      const nombre_y_apellido= data.Usuario.nombres+' '+data.Usuario.apellidos;
-      const apellido_y_nombre = data.Usuario.apellidos + ' ' + data.Usuario.nombres;
+      const nombre_y_apellido= data.nombres+' '+data.apellidos;
+      const apellido_y_nombre = data.apellidos + ' ' + data.nombres;
 
       const hasMatchInBuscar =
         nombre_y_apellido.toLowerCase().includes(buscar.toLowerCase()) ||
         apellido_y_nombre.toLowerCase().includes(buscar.toLowerCase()) ||
         data.cedula.toString().includes(buscar)
   
-      return hasMatchInTipo && hasMatchInEstatus  && hasMatchInBuscar && hasMatchInCarrera ;
+      return /*hasMatchInTipo && hasMatchInCarrera &&*/ hasMatchInEstatus  && hasMatchInBuscar  ;
     });
   };
 
@@ -164,7 +164,7 @@ function Usuarios() {
               </thead>
               <tbody>
                 {paginatedData && paginatedData.map(
-                  ({ Usuario, cedula, Carrera,Tipo, estatus,totalIngresos }, key) => {
+                  ({ nombres,apellidos, cedula, Tarjeta, estatus }, key) => {
                     const className = `py-3 px-5 ${
                       key == paginatedData.length - 1
                         ? ""
@@ -172,37 +172,43 @@ function Usuarios() {
                     }`;
 
                     return (
-                      <tr key={cedula+key} className="hover:bg-blue-gray-50 cursor-pointer" onClick={()=>{historial_usuario(cedula)}}>
+                      <tr key={cedula+key} className="hover:bg-blue-gray-50 " >
                         <td className={className}>
-                          <Typography className="text-lg font-semibold text-blue-gray-600">
+                          <Typography className="text-md font-semibold text-blue-gray-600">
                             V-{cedula}
                           </Typography>
                         </td>
-                        <td  className={className}>
-                        <Typography className="text-lg font-semibold text-blue-gray-600">
-                                {Usuario.nombres+', '+Usuario.apellidos}
+                        <td  className={`${className} cursor-pointer`} onClick={()=>{historial_usuario(cedula)}}>
+                        <Typography className="text-md font-semibold text-blue-gray-600">
+                                {nombres+', '+apellidos}
                             </Typography>
                         </td>
                       
-                        <td className={className}>
-                          <Typography className="text-lg font-semibold text-blue-gray-600">
-                            {Tipo.nombre}
-                          </Typography>
+                        <td className={`${className} cursor-pointer`} onClick={()=>{historial_usuario(cedula)}}>
+                            {Tarjeta.map((tarjeta) => (
+                               <Typography key={tarjeta.iCardCode} className="text-sm font-semibold text-blue-gray-600">
+                                  {tarjeta.Tipo.nombre}
+                                </Typography>
+                            ))} 
                         </td>
 
-                        <td className={className}>
-                          <Typography className="text-sm font-semibold text-blue-gray-600">
-                            {Carrera ? Carrera.nombre : ""}
-                          </Typography>
+                        <td className={`${className} cursor-pointer`} onClick={()=>{historial_usuario(cedula)}}>
+                            {Tarjeta.map((tarjeta) => (
+                               <Typography key={tarjeta.iCardCode} className="text-sm font-semibold text-blue-gray-600">
+                                  {tarjeta.Carrera ? tarjeta.Carrera.nombre : 'No posee Carrera'}
+                                </Typography>
+                            ))} 
                         </td>
 
-                        <td className={className}>
-                          <Typography className="text-lg font-semibold text-blue-gray-600">
-                            {totalIngresos}
-                          </Typography>
+                        <td className={`${className} cursor-pointer`} onClick={()=>{historial_usuario(cedula)}}>
+                            {Tarjeta.map((tarjeta) => (
+                               <Typography key={tarjeta.iCardCode} className="text-sm font-semibold text-blue-gray-600">
+                                  {tarjeta.totalIngresos}
+                                </Typography>
+                            ))} 
                         </td>
 
-                        <td className={className}>
+                        <td className={`${className} cursor-pointer`} onClick={()=>{historial_usuario(cedula)}}>
                           <Chip
                             variant="gradient"
                             color={estatus == 1 ? "green" : "red"}
