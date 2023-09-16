@@ -14,8 +14,7 @@ function App() {
               
       {/* PARA ACCEDER DEBE DE EXISTIR UN UNSUARIO LOGUEADO */}
       <Route element={<RedirectLogin />}> 
-      <Route path="/panel-control/*" element={<Dashboard />} />
-      <Route path="/administradores" element={<Administradores />} />
+          <Route path="/panel-control/*" element={<Dashboard />} />
       </Route>
       
       {/* RUTAS DE ERRORES */}
