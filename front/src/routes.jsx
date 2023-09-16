@@ -10,6 +10,7 @@ import EstadisticaPersonalizada from "./pages/dashboard/EstadisticaPersonalizada
 import Panel from "./pages/dashboard/Panel";
 import Visitantes from "./pages/dashboard/Visitantes";
 import Estadisticas from "./pages/dashboard/Estadisticas";
+import Administradores from "./pages/dashboard/administradores";
 
 const token_biblioteca = localStorage.getItem("token_biblioteca");
 const icon = {
@@ -67,6 +68,12 @@ export const routes = [
         name: "Visitantes",
         path: "/visitantes",
         element: <Visitantes token_biblioteca={token_biblioteca}/>,
+      },
+      {
+        icon: <TableCellsIcon {...icon} />,
+        name: "Administradores",
+        path: "/administradores",
+        element: <Administradores token_biblioteca={token_biblioteca}/>,
       },
     ],
   },

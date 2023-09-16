@@ -166,12 +166,21 @@ export function DashboardNavbar() {
                       Visitantes
                   </MenuItem>            
                 </NavLink>}
-                <hr/>
-                  <MenuItem className="flex items-center gap-4"
-                 onClick={cerrarSesion}
-                 >
-                      Cerrar Sesion
+                {permisos && permisos.find(permiso => permiso.permiso_id == 7) &&
+                  <>
+                  <hr/>
+                  <NavLink to={`/panel-control/administradores`}>
+                  <MenuItem className="flex items-center gap-4">
+                      Administradores
                   </MenuItem>            
+                </NavLink>
+                </>}
+                <hr/>
+                <MenuItem className="flex items-center gap-4"
+                    onClick={cerrarSesion}
+                    >
+                      Cerrar Sesion
+                </MenuItem>            
               </MenuList>
             </Menu>
         </div>

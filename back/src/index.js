@@ -14,7 +14,7 @@ const routerUsuario = require('./routes/usuario.routes.js')
 const routerControlAcceso = require('./routes/control-acceso.routes.js')
 const routerPanel  = require('./routes/panel.routes.js');
 const routerEstadisticas  = require('./routes/estadisticas.routes.js');
-const routerConfiguracion = require("./routes/configuracion.routes.js");
+const routerAdministrador = require("./routes/administrador.routes.js");
 const routerPruebas = require("./routes/pruebas.routes.js");
 
 let app = express();
@@ -43,7 +43,7 @@ app.use(routerUsuario);
 app.use(routerControlAcceso);
 app.use(routerPanel);
 app.use(routerEstadisticas);
-app.use(routerConfiguracion);
+app.use(routerAdministrador);
 app.use(routerPruebas);
 
 // SE ESCUCHAN LOS PUERTOS SERIALES Y EL SOCKT

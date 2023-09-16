@@ -30,12 +30,12 @@ const PermisoAdministrador = sequelize.define('PermisoAdministrador', {
   tableName: 'permiso_administrador'
 })
 
-PermisoAdministrador.belongsTo(Permiso, {
-  foreignKey: 'permiso_id'
-});
+// PermisoAdministrador.belongsTo(Permiso, {
+//   foreignKey: 'permiso_id'
+// });
 
-PermisoAdministrador.belongsTo(Administrador, {
-  foreignKey: 'administrador_id'
-});
+// PermisoAdministrador.belongsTo(Administrador, {
+//   foreignKey: 'administrador_id'
+// });
 
 module.exports = PermisoAdministrador;
