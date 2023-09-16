@@ -34,7 +34,7 @@ import AgregarAdministrador from "../../components/AgregarAdministrador";
   
     useEffect(()=>{
       obtener_administradores();
-    },[nuevo,administradores])
+    },[nuevo])
   
     function agregar_administrador(id=null,nombre_completo=null,nick=null,permisos=[]){
       const administrador = {id,nombre_completo,nick,permisos}

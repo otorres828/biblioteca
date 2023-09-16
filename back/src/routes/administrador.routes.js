@@ -13,7 +13,7 @@ routerAdministrador.get('/permisos', permisos);
 routerAdministrador.get('/permisos_administrador', permisos_administrador);
 routerAdministrador.post('/crear_administrador', crear_administrador);
 routerAdministrador.get('/administradores/todos_administradores', todos_administradores);
-routerAdministrador.get('/administradores/cambiar_estado/:id',verify, cambiar_estado);
+routerAdministrador.get('/administradores/cambiar_estado/:administrador_id',verify, cambiar_estado);
 routerAdministrador.post('/administradores/:tipo',verify, crear);
 
 module.exports = routerAdministrador;

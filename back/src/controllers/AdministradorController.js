@@ -66,9 +66,10 @@ const todos_administradores = async (req, res) => {
   
 //cambiar estatus de administrador
 const cambiar_estado = async (req, res) => {
-    const {id} =req.param;
+    const {administrador_id} =req.params;
     try {
-      const admin = await Administrador.findOne({ where: { id: id } });
+      console.log(administrador_id)
+      const admin = await Administrador.findOne({ where: { id: administrador_id } });
   
       let nuevoEstatus;
       if (admin.estatus == 1) {
@@ -79,7 +80,7 @@ const cambiar_estado = async (req, res) => {
   
       await admin.update({ estatus: nuevoEstatus });
   
-      res.json(nuevoEstatus === 2);
+      res.json(nuevoEstatus == 2);
     } catch (error) {
       res.json('Error al realizar la consulta');
     }
