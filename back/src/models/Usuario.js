@@ -35,4 +35,5 @@ Usuario.hasMany(Tarjeta,{
 Tarjeta.belongsTo(Usuario, {
   foreignKey: 'cedula'
 });
+
 module.exports = Usuario;

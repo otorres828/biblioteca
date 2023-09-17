@@ -18,3 +18,9 @@ export const RedirectLogin = ({ children, redirectTo = "/login",}) => {
   }
   return <Outlet />;
 };
+
+export const ProtectedPermiso = ({  children,redirectTo = "/panel-control",}) => {
+  const permisos = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  return children ? children : <Outlet />;
+};

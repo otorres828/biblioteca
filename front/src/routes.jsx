@@ -17,63 +17,65 @@ const icon = {
   className: "w-5 h-5 text-inherit",
 };
 
-export const routes = [
+const routes = [
   {
     layout: "dashboard",
     pages: [
       {
         icon: <HomeIcon {...icon} />,
         name: "Panel de Control",
-        path: "/",
+        path: "",
         element: <Panel token_biblioteca={token_biblioteca}/>,
+        permission: 0
       },
-    ],
-  },
-  {
-    layout: "dashboard",
-    pages: [
-
       {
         icon: <BellIcon {...icon} />,
         name: "Control de Acceso",
         path: "/control-acceso",
         element: <Home token_biblioteca={token_biblioteca}/>,
+        permission: 1
       },
       {
         icon: <BellIcon {...icon} />,
         name: "Estadisticas",
         path: "/estadisticas",
         element: <Estadisticas token_biblioteca={token_biblioteca}/>,
+        permission: 2
       },
       {
         icon: <BellIcon {...icon} />,
         name: "Estadisticas Personalizada",
         path: "/personalizada",
         element: <EstadisticaPersonalizada />,
+        permission: 3
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Historial",
         path: "/historial",
         element: <Historial  token_biblioteca={token_biblioteca} />,
+        permission: 4
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Usuarios",
         path: "/usuarios",
         element: <Usuarios token_biblioteca={token_biblioteca}/>,
+        permission: 5
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Visitantes",
         path: "/visitantes",
         element: <Visitantes token_biblioteca={token_biblioteca}/>,
+        permission: 6
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Administradores",
         path: "/administradores",
         element: <Administradores token_biblioteca={token_biblioteca}/>,
+        permission: 7
       },
     ],
   },

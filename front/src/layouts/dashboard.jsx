@@ -1,23 +1,25 @@
-import { Routes, Route } from "react-router-dom";
-import {
-  DashboardNavbar,
-  Configurator,
-  Footer,
-} from "./../widgets/layout";
+import React from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { DashboardNavbar, Configurator, Footer } from "./../widgets/layout";
 import routes from "./../routes";
 
 export function Dashboard() {
+  const location = useLocation();
+  const permisos = JSON.parse(localStorage.getItem('permisos'));
+  const filteredRoutes = routes.filter(({  pages }) =>
+    pages.some(({ path, permission }) =>
+      '/panel-control'+path === location.pathname && permisos.includes(permission)
+    )
+  );
   return (
     <div className="min-h-screen bg-blue-gray-50/50">
-    
       <div className="p-4">
         <DashboardNavbar />
         <Configurator />
         
         <Routes>
-          {routes.map(
-            ({ layout, pages }) =>
-              layout == "dashboard" &&
+          {filteredRoutes.map(
+            ({ pages }) =>
               pages.map(({ path, element }) => (
                 <Route exact path={path} element={element} />
               ))
@@ -30,5 +32,3 @@ export function Dashboard() {
     </div>
   );
 }
-
-export default Dashboard;

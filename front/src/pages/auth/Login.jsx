@@ -41,6 +41,7 @@ export function Login() {
         enqueueSnackbar(res.data.error, { variant: res.data.error });
       } else {
         localStorage.setItem("token_biblioteca", res.data.token_biblioteca);
+        localStorage.setItem("permisos", "["+res.data.permisos+"]");
         enqueueSnackbar("Gracias por volver :D ", { variant: "success" });
         navigate("../panel-control");
       }

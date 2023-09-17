@@ -3,6 +3,7 @@
 const Administrador = require('../models/Administrador.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const PermisoAdministrador = require('../models/PermisoAdministrador.js');
 const SECRET_KEY = 'KGGK>HKHVHJVKBKJKJBKBKHKBMKHB';
 
 const login = async (req, res) => {
@@ -29,8 +30,18 @@ const login = async (req, res) => {
         nick: administrador.nick,
     };
     const token = generateToken(admin);
-    
-    res.status(200).json({ token_biblioteca: token,administrador:admin});
+   
+    const permisos = await PermisoAdministrador.findAll({
+          where: {
+            administrador_id: administrador.id
+          },
+          attributes: ['permiso_id']
+    });
+        
+    const permisoIds = permisos.map(permiso => permiso.permiso_id);
+    permisoIds.push(0)
+
+    res.status(200).json({ token_biblioteca: token,administrador:admin,permisos:permisoIds});
 };
 
 //compara la clave que viene del usuario con la hasheada en la bdd

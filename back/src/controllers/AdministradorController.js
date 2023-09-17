@@ -8,8 +8,6 @@ const jwt = require('jsonwebtoken');
 const SECRET_KEY = 'KGGK>HKHVHJVKBKJKJBKBKHKBMKHB';
 const { Op } = require('sequelize');
 
-
-
 //obtener todos los permisos
 const permisos = async (req, res) => {
     const permisos = await Permiso.findAll();
@@ -141,11 +139,32 @@ const crear = async (req, res) => {
   }
 }
 
+//obtener los permisos del adminsitrador logueado
+const mis_permisos = async (req, res) => {
+    //obtenemos el token del header
+    const token = req.headers.authorization.split(' ')[1];
+    //decodificamos el token
+    const decodedToken = jwt.verify(token,SECRET_KEY);
+    //obtenemos el id del administrador logueado
+    const administrador_id = decodedToken.id;
+
+    const permisos = await PermisoAdministrador.findAll({
+      where: {
+        administrador_id: administrador_id
+      },
+      attributes: ['permiso_id']
+    });
+    
+    const permisoIds = permisos.map(permiso => permiso.permiso_id);
+    permisoIds.push(0)
+    res.status(200).json(permisoIds);
+}
 module.exports = {
                     permisos,
                     permisos_administrador,
                     crear_administrador,
                     todos_administradores,
                     cambiar_estado,
-                    crear
+                    crear,
+                    mis_permisos
                     };

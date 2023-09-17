@@ -2,7 +2,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { RedirectLogin, RedirectPanel } from "./components/ProtectedRoute";
 import { Dashboard } from "./layouts";
 import { Login } from "./pages/auth";
-import Administradores from "./pages/dashboard/administradores";
 
 function App() {
   return (
@@ -14,7 +13,7 @@ function App() {
               
       {/* PARA ACCEDER DEBE DE EXISTIR UN UNSUARIO LOGUEADO */}
       <Route element={<RedirectLogin />}> 
-          <Route path="/panel-control/*" element={<Dashboard />} />
+          <Route path="/panel-control/*" element={<Dashboard/>} />
       </Route>
       
       {/* RUTAS DE ERRORES */}

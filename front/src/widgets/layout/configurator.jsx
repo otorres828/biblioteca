@@ -12,23 +12,13 @@ import {
   setFixedNavbar,
 } from "../../context";
 import AccesoManual from "./../../pages/dashboard/acceso-manual";
-// import { useSnackbar } from "notistack";
-// import { useNavigate } from "react-router-dom";
 import axios from './../../api/axios'
 
 export function Configurator() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { openConfigurator, fixedNavbar } =controller;
   const [permisos,setPermisos] = useState();
-  // const { enqueueSnackbar } = useSnackbar();
-  // const navigate = useNavigate();
   const token_biblioteca= localStorage.getItem('token_biblioteca');
-
-  // function cerrarSesion(){
-  //   localStorage.removeItem('token_biblioteca');
-  //   enqueueSnackbar("Ha cerrado sesion con exito", { variant: "success" });
-  //   navigate("/login");
-  // }
 
   useEffect(()=>{
     const headers = {

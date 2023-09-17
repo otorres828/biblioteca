@@ -37,6 +37,7 @@ export function DashboardNavbar() {
   
   function cerrarSesion(){
     localStorage.removeItem('token_biblioteca');
+    localStorage.removeItem('permisos');
     enqueueSnackbar("Ha cerrado sesion con exito", { variant: "success" });
     navigate("/login");
   }
@@ -133,7 +134,7 @@ export function DashboardNavbar() {
                 </NavLink>
 
                 {permisos && permisos.find(permiso => permiso.permiso_id == 1) && 
-                <NavLink to={`/panel-control/control-acceso/`}>
+                <NavLink to={`/panel-control/control-acceso`}>
                   <MenuItem className="flex items-center gap-4">
                       Control de Acceso
                   </MenuItem>
