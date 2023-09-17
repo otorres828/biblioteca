@@ -3,14 +3,16 @@ import {
   CardHeader,
   CardBody,
   Typography,
-  Chip,
+  Switch,
 } from "@material-tailwind/react";
 import axios from './../../api/axios'
 import { useEffect, useState } from "react";
 import ReactHTMLTableToExcel from 'react-html-table-to-excel-3';
 import HistorialUsuario from "./../../components/graficos/HistorialUsuario";
+import { useSnackbar } from "notistack";
 
 function Usuarios() {
+  const { enqueueSnackbar } = useSnackbar();
   const [todosUsuarios, setTodosUsuarios] = useState([]);
   const [cedula, setCedula] = useState(null);
   const [tipoFilter, setTipoFilter] = useState("");
@@ -26,6 +28,7 @@ function Usuarios() {
     "Content-Type": "application/json",
     "Authorization": `Bearer ${token_biblioteca}`
   };
+  
   function obtener_usuarios() {
     axios
       .get("/usuarios", {headers: headers,})
@@ -72,6 +75,13 @@ function Usuarios() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  function cambiarEstado(cedula){
+    axios.get('usuarios/cambiar_estado/'+cedula,{headers:headers}).
+    then((response)=>{
+        enqueueSnackbar('Estatus actualizado con exito', { variant: 'success' });
+    })
+  }
 
   return (
     <div className="mt-12 mx-0 md:mx-8 mb-8 flex flex-col gap-12">
@@ -211,14 +221,14 @@ function Usuarios() {
                             ))} 
                         </td>
 
-                        <td className={`${className} cursor-pointer`} onClick={()=>{historial_usuario(cedula)}}>
-                          <Chip
-                            variant="gradient"
-                            color={estatus == 1 ? "green" : "red"}
-                            value={estatus == 1 ? "ACTIVO" : "INACTIVO"}
-                            className="py-0.5 px-2 text-[11px] font-medium"
-                          />
-                        </td>
+                        <td className={className} >
+                            <Switch
+                              id={cedula}
+                              value={estatus} // El valor del switch es controlado por el estado 'cambiar'
+                              onChange={()=>{cambiarEstado(cedula)}} // Al hacer click, se invierte el valor de 'cambiar'
+                              defaultChecked={estatus==1 ? true: false}
+                            />
+                          </td>
                       
                       </tr>
                     );

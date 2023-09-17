@@ -12,7 +12,7 @@ var development = {
   database: process.env.DB_DATABASE,
   host:     process.env.DB_HOST,
   dialect:  process.env.DB_DIALECT,
-  timezone: process.env.DB_TIMEZONE // aquí se configura la zona horaria
+  // timezone: process.env.DB_TIMEZONE // aquí se configura la zona horaria
 };
 
 module.exports = development;

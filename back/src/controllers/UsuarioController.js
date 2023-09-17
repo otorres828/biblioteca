@@ -5,6 +5,7 @@ const Abscripcion = require('../models/Abscripcion.js');
 const Tarjeta = require('../models/Tarjeta.js');
 const { Op,Sequelize } = require('sequelize');
 const Historial = require('../models/Historial.js');
+const sequelize = require('../../config/database.js');
 
 //Devuelve todos los usuarios para el acceso manual
 const todos_usuarios = async (req, res) => {
@@ -201,6 +202,17 @@ const visitante_actualizar = async (req,res) => {
     return res.json({error:'Ha ocurrido un error inesperado'});
 };
 
+//cambiar estatus de usuario
+const cambiar_estado = async (req, res) => {
+    const { cedula } = req.params;
+    await Usuario.update({ estatus: sequelize.literal('CASE WHEN estatus = 1 THEN 2 ELSE 1 END') }, {
+        where: { cedula }
+    });
+    const user = await Usuario.findByPk(cedula);
+    res.json(user.estatus === 2);
+};
+
+
 const updateUser = async (req,res) => {
     const {  user_id,password,name, last_name,type } = req.body;
     const user = await User.findOne({
@@ -239,4 +251,5 @@ module.exports = { usuarios,
                     historial_usuario_particular,
                     visitante_crear, 
                     visitante_actualizar,
+                    cambiar_estado,
                     updateUser, insertPhoto };

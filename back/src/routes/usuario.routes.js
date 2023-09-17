@@ -4,7 +4,8 @@ const { todos_usuarios,
         visitantes,
         visitante_crear,
         visitante_actualizar,
-        historial_usuario_particular } = require('../controllers/UsuarioController.js');
+        historial_usuario_particular,
+        cambiar_estado } = require('../controllers/UsuarioController.js');
 const verify = require('../middleware/verify.js');
 
 const routeUsuario = express.Router();
@@ -12,6 +13,7 @@ const routeUsuario = express.Router();
 routeUsuario.get('/todos_usuarios', verify,todos_usuarios); //Acceso Manual
 routeUsuario.get('/usuarios', verify,usuarios);
 routeUsuario.post('/historial_usuario_particular', verify,historial_usuario_particular);
+routeUsuario.get('/usuarios/cambiar_estado/:cedula',verify, cambiar_estado);
 
 //visitantes
 routeUsuario.get('/visitantes', verify,visitantes);

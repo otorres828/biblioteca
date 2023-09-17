@@ -68,7 +68,6 @@ const todos_administradores = async (req, res) => {
 const cambiar_estado = async (req, res) => {
     const {administrador_id} =req.params;
     try {
-      console.log(administrador_id)
       const admin = await Administrador.findOne({ where: { id: administrador_id } });
   
       let nuevoEstatus;
