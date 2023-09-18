@@ -77,7 +77,7 @@ const entrar_salir = async (req, res) => {
       ]
     }
   });
-  console.log(usuario)
+
   if (!usuario) {
     return res.status(200).json({ error: "El usuario no tiene permiso" });
   }
@@ -102,7 +102,7 @@ const entrar_salir = async (req, res) => {
     cedula: '',
     nombre: '',
     carrera: '',
-    tipo: '',
+    tipo: '',g
   };
 
   axios.get(`${process.env.URL_API}/control-acceso/validar-${tipo_acceso}/` + result[0].iCardCode, { headers: headers })
@@ -138,7 +138,7 @@ const validar_tarjeta_entrada = async (req, res) => {
   const { iCardCode } = req.params;
   //obtnemos la tarjeta
   const tarjeta = await Tarjeta.findByPk(iCardCode);
-
+  
   // Obtén la fecha y hora actual
   const fechaActual = new Date();
   // Resta 4 horas a la fecha actual
@@ -152,11 +152,11 @@ const validar_tarjeta_entrada = async (req, res) => {
       tarjeta_id: null
     };
 
-    // Call the function to create a new record
+    // Registrar usuario desconocido
     const existingRecord = await Historial.findOne({ where: { fecha: data.fecha } });
     if (!existingRecord) 
       await Historial.create(data);
-    return res.json({ estatus: "denied" });
+    return res.json({ estatus: "denied",error:"Usuario Desconocido" });
   }
 
   //obtenemos los datos relacionados a la tarjeta, como el Usuario y el Tipo de Usuario
@@ -167,7 +167,7 @@ const validar_tarjeta_entrada = async (req, res) => {
     include: [
       {
         model: Usuario,
-        attributes: ["avatar","nombres", "apellidos", "cedula"],
+        attributes: ["avatar","nombres", "apellidos", "cedula","estatus"],
       },
       {
         model: Tipo,
@@ -223,6 +223,11 @@ const validar_tarjeta_entrada = async (req, res) => {
       data.estatus = 2;
     }
 
+    //validamos que el usuario este activo
+    if(usuario.estatus==2)
+      data.estatus = 3;
+
+    console.log(usuario)
     // crea un registro en el historial
     await Historial.create(data);
     //retornamos la respuesta
@@ -233,6 +238,7 @@ const validar_tarjeta_entrada = async (req, res) => {
       carrera:  tarjeta.estatus == 3 ? 'Desconocido' : (carrera ? carrera.nombre : 'Desconocido') ,
       tipo: tipo.nombre,
       avatar: usuario.avatar,
+      error:"El usuario esta inactivo"
     });
   } else {
     // SI EL USUARIO NO EXISTE
@@ -244,7 +250,7 @@ const validar_tarjeta_entrada = async (req, res) => {
 
     // Registrar historial anonimo
     await Historial.create(data);
-    return res.json({ estatus: "denied" });
+    return res.json({ estatus: "denied",error:"Usuario Desconocido"});
   }
 };
 
@@ -268,11 +274,11 @@ const validar_tarjeta_salida = async (req, res) => {
       tipo:2
     };
 
-    // Call the function to create a new record
-    const existingRecord = await Historial.findOne({ where: { fecha: data.fecha } });
-    if (!existingRecord) 
-      await Historial.create(data);
-    return res.json({ estatus: "denied" });
+  // registra historial a un usuario desconocido
+  const existingRecord = await Historial.findOne({ where: { fecha: data.fecha } });
+  if (!existingRecord) 
+    await Historial.create(data);
+    return res.json({ estatus: "denied",error:"Usuario Desconocido" });
   }
 
   //obtenemos los datos relacionados a la tarjeta, como el Usuario y el Tipo de Usuario
@@ -342,6 +348,9 @@ const validar_tarjeta_salida = async (req, res) => {
     if (!result.length) {
       data.estatus = 2;
     }
+
+    if(usuario.estatus==2)
+      data.estatus=3;
   
     // crea un registro en el historial
     await Historial.create(data);
@@ -353,6 +362,7 @@ const validar_tarjeta_salida = async (req, res) => {
       carrera:  tarjeta.estatus == 3 ? 'Desconocido' : (carrera ? carrera.nombre : 'Desconocido') ,
       tipo: tipo.nombre,
       avatar: usuario.avatar,
+      error:"Usuario Inactivo"
     });
   } else {
     // Usage
@@ -363,9 +373,9 @@ const validar_tarjeta_salida = async (req, res) => {
       tipo:2
     };
 
-    // Call the function to create a new record
+    // la tarjeta no existe
     await Historial.create(data);
-    return res.json({ estatus: "denied" });
+    return res.json({ estatus: "denied" ,error:"Usuario Desconocido"});
   }
 };
 

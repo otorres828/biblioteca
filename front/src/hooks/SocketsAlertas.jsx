@@ -9,7 +9,6 @@ const SocketsAlertas = () => {
     const socket = io(process.env.REACT_APP_API_URL);
 
     socket.on('connect', () => {
-      console.log('Socket connected!');
     });
 
     socket.on('mensaje_entrada', (message) => {
@@ -21,7 +20,7 @@ const SocketsAlertas = () => {
           enqueueSnackbar('El usuario ya se encuentra dentro de la biblioteca', { variant: 'warning' });
           break;
         case 'denied':
-          enqueueSnackbar('No tiene permisos para pasar', { variant: 'error' });
+          enqueueSnackbar(message.error, { variant: 'error' });
           break;
       }
     });
@@ -35,7 +34,7 @@ const SocketsAlertas = () => {
           enqueueSnackbar('El usuario no esta dentro de la biblioteca', { variant: 'warning' });
           break;
         case 'denied':
-          enqueueSnackbar('No tiene permisos para pasar', { variant: 'error' });
+          enqueueSnackbar(message.error, { variant: 'error' });
           break;
       }
     });

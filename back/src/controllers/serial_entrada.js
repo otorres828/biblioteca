@@ -9,7 +9,7 @@ module.exports = function(io) {
         "Custom-Header": "Custom-Value"
     };
     const port = new SerialPort(
-        'COM3',
+        'COM6',
         {baudRate: 9600}
     )
     
@@ -18,13 +18,12 @@ module.exports = function(io) {
     port.pipe(parser)
     
     parser.on('data', (data)=>{
-        console.log(data)
         if (data.includes('"Card"') && data.includes('"UID"') && data.includes('"iCardCode"') && data.includes('"iSiteCode"') && data.includes('"iCode"')) {
             const tarjeta= JSON.parse(data).Card;
             console.log('TARJETA DATOS: '+tarjeta)
             axios.get(process.env.URL_API+"/control-acceso/validar-entrada/" + tarjeta.iCardCode, {headers: headers})
             .then(function(response) {
-                let {estatus,cedula,nombre,carrera,tipo,avatar} = response.data;
+                let {estatus,cedula,nombre,carrera,tipo,avatar,error} = response.data;
 
                 if(estatus==='ok')
                     port.write('ok\n')
@@ -38,6 +37,7 @@ module.exports = function(io) {
                     carrera: carrera,
                     tipo: tipo,
                     avatar: avatar,
+                    error:error
                 };
                 //enviar datos del usuario al front en react con sockets
                 io.emit('mensaje_entrada', userInfo);

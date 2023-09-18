@@ -1,15 +1,9 @@
 
 module.exports = function(io) {
     var SerialPort = require("serialport");
-    var axios = require('axios');
   
-    const headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Custom-Header": "Custom-Value"
-    };
     const port = new SerialPort(
-        'COM5',
+        'COM6',
         {baudRate: 9600}
     )
     
@@ -18,15 +12,10 @@ module.exports = function(io) {
     port.pipe(parser)
     
     parser.on('data', (data)=>{
+        console.log(data)
         if (data.includes('"Card"') && data.includes('"UID"') && data.includes('"iCardCode"') && data.includes('"iSiteCode"') && data.includes('"iCode"')) {
 
-        // const tarjeta= JSON.parse(data).Card;
-        // console.log(tarjeta)
-        // axios.get(process.env.URL_API+"/control-acceso/validar-entrada/" + tarjeta.iCardCode, {headers: headers})
-        // .then(function(response) {
-        //     let {estatus,cedula,nombre,carrera,tipo,avatar} = response.data;
 
-        console.log(data)
         port.write('ok\n')
         //     const userInfo = {
         //         estatus:estatus,

@@ -29,7 +29,6 @@
     "react": "^18.2.0",
     "react-apexcharts": "1.4.0",
     "react-dom": "^18.2.0",
-    "react-html-table-to-excel-3": "^3.0.1",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.4",
@@ -48,7 +47,8 @@
     "workbox-range-requests": "^6.6.0",
     "workbox-routing": "^6.6.0",
     "workbox-strategies": "^6.6.0",
-    "workbox-streams": "^6.6.0"
+    "workbox-streams": "^6.6.0",
+    "react-html-table-to-excel-3": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
