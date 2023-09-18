@@ -102,7 +102,7 @@ const entrar_salir = async (req, res) => {
     cedula: '',
     nombre: '',
     carrera: '',
-    tipo: '',g
+    tipo: '',
   };
 
   axios.get(`${process.env.URL_API}/control-acceso/validar-${tipo_acceso}/` + result[0].iCardCode, { headers: headers })
