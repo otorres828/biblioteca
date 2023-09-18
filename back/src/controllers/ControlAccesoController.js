@@ -477,10 +477,12 @@ const estadisticas_ingreso_hora = async (req, res) => {
 
     for (let hour = 8; hour <= 17; hour++) {
       const startTime = new Date();
-      startTime.setHours(hour -4, 0, 0, 0);
+      
+      startTime.setHours(hour , 0, 0, 0);
       const endTime = new Date();
-      endTime.setHours(hour - 3, 0, 0, 0);
+      endTime.setHours(hour+1 , 0, 0, 0);
 
+      // console.log([startTime,endTime])
       const ingresosCount = await Historial.count({
         where: {
           tipo: '1',
