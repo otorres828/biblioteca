@@ -4,6 +4,7 @@ import {
   CardBody,
   Typography,
   Chip,
+  Button,
 } from "@material-tailwind/react";
 import axios from './../../api/axios'
 import { useEffect, useState } from "react";
@@ -136,7 +137,7 @@ function Visitantes() {
             <table className=" w-full table-auto" id="visitantes">
               <thead>
                 <tr>
-                  {["Cedula","Nombre y Apellido",  "Estatus","Acciones"].map((el) => (
+                  {["Cedula","Nombre y Apellido", "correo","telefono", "Estatus","Acciones"].map((el) => (
                     <th
                       key={el}
                       className="border-b border-blue-gray-50 py-3 px-5 text-left"
@@ -173,6 +174,18 @@ function Visitantes() {
                                 {Usuario.nombres+', '+Usuario.apellidos}
                             </Typography>
                         </td>
+
+                        <td  className={className} onClick={()=>{historial_usuario(cedula)}}>
+                          <Typography className="text-lg font-semibold text-blue-gray-600">
+                                {Usuario.correo}
+                            </Typography>
+                        </td>
+
+                        <td  className={className} onClick={()=>{historial_usuario(cedula)}}>
+                          <Typography className="text-lg font-semibold text-blue-gray-600">
+                                {Usuario.telefono}
+                            </Typography>
+                        </td>
                     
                         <td className={className} onClick={()=>{historial_usuario(cedula)}}>
                           <Chip
@@ -184,7 +197,9 @@ function Visitantes() {
                         </td>
                       
                         <td className={className}>
-                          <button className="bg-blue-500 font-semibold rounded-lg p-3 text-white cursor-pointer" onClick={()=>{agregar_visitante(Usuario)}}>Editar</button>
+                            <Button variant="text" size="sm" onClick={()=>{agregar_visitante(Usuario)}}>
+                              Editar
+                            </Button>
                         </td>
                       </tr>
                     );

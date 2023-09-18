@@ -10,6 +10,9 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
   const [nombres, setNombres] = useState("");
   const [apellidos, setApellidos] = useState("");
   const [cedula, setCedula] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [detalles, setDetalles] = useState("");
+  const [correo, setCorreo] = useState("");
   const [cedula_vieja, setCedula_vieja] = useState("");
   const { enqueueSnackbar } = useSnackbar();
 
@@ -26,7 +29,7 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
   };
 
   const agregar_visitante = () => {
-    axios.post('visitantes/crear',{nombres,apellidos,cedula},{ headers: headers })
+    axios.post('visitantes/crear',{nombres,apellidos,cedula,correo,telefono,detalles},{ headers: headers })
     .then((response)=>{
         if(response.data.exito){
             handleClose();
@@ -40,7 +43,7 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
   };
 
   const actualizar_visitante = () => {
-    axios.post('visitantes/actualizar',{nombres,apellidos,cedula,cedula_vieja},{ headers: headers })
+    axios.post('visitantes/actualizar',{nombres,apellidos,cedula,cedula_vieja,correo,telefono,detalles},{ headers: headers })
     .then((response)=>{
         if(response.data.exito){
             handleClose();
@@ -59,10 +62,16 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
         setApellidos(usuario.apellidos)
         setCedula(usuario.cedula)
         setCedula_vieja(usuario.cedula)
+        setDetalles(usuario.detalles)
+        setTelefono(usuario.telefono)
+        setCorreo(usuario.correo)
     }else{
         setNombres("")
         setApellidos("")
         setCedula("")
+        setDetalles("")
+        setCorreo("")
+        setTelefono("")
         setCedula_vieja("")
     }
   },[])
@@ -71,7 +80,7 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
     <>
       <Dialog
         fullWidth={true}
-        maxWidth="xs"
+        maxWidth="md"
         open={open}
         onClose={handleClose}
         aria-labelledby="crear-visitante"
@@ -107,7 +116,8 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
                   onChange={(e) => setApellidos(e.target.value)}
                 />
               </div>
-              <div className="w-full mt-4 px-3">
+
+              <div className="w-full md:w-1/2 mt-4 px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Cédula del Visitante
                 </label>
@@ -120,6 +130,49 @@ function AgregarVisitante({ nuevo = null, open, handleClose, usuario = null,obte
                   onChange={(e) => setCedula(e.target.value)}
                 />
               </div>
+
+              <div className="w-full md:w-1/2 mt-4 px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  correo
+                </label>
+                <input
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  type="email"
+                  placeholder="Escriba la cédula del visitante"
+                  required
+                  value={correo}
+                  onChange={(e) => setCorreo(e.target.value)}
+                />
+              </div>
+
+              <div className="w-full  md:w-1/2   mt-4 px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  detalles
+                </label>
+                <textarea
+                          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          placeholder="Escriba los nombres del visitante"
+                          required
+                          defaultValue={detalles}
+                          onChange={(e) => setDetalles(e.target.value)}
+                        > 
+              </textarea>       
+              </div>
+
+              <div className="w-full md:w-1/2 mt-4 px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Telefono
+                </label>
+                <input
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  type="number"
+                  placeholder="Escriba la cédula del visitante"
+                  required
+                  value={telefono}
+                  onChange={(e) => setTelefono(e.target.value)}
+                />
+              </div>
+              
             </div>
           </form>
         </DialogContent>

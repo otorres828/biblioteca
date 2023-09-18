@@ -1,3 +1,9 @@
+import { ProfileInfoCard } from "./../widgets/cards";
+import {  useState } from "react";
+import FechaInput from "./FechaInput";
+import { DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import axios from "../api/axios";
+import avatar from '../images/avatar.jpg'
 import {
     CardBody,
     Avatar,
@@ -14,11 +20,6 @@ import {
     ChatBubbleLeftEllipsisIcon,
     PencilIcon,
   } from "@heroicons/react/24/solid";
-import { ProfileInfoCard } from "./../widgets/cards";
-import { useEffect, useState } from "react";
-import FechaInput from "./FechaInput";
-import { DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import axios from "../api/axios";
 
 export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,setFechaInicio,fechaFin,setFechaFin,obtener_tipo,obtener_historial}) {
     const [value, setValue] = useState("1");
@@ -70,7 +71,7 @@ export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,se
             <div className="mb-10 md:flex items-center justify-between gap-6">
               <div className="flex items-center gap-6">
                 <Avatar
-                  src={usuario.avatar}
+                  src={visitante ? avatar : usuario.avatar}
                   alt="bruce-mars"
                   size="xl"
                   className="rounded-lg shadow-lg shadow-blue-gray-500/40"
@@ -105,13 +106,14 @@ export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,se
 
             {/* INFORMACION DE PERFIL E HISTORIAL */}
             {value=="1" ? 
-            <div className="gird-cols-1 mb-12 grid gap-12">             
+            <div className="gird-cols-1 grid gap-12">             
               <ProfileInfoCard
                 title="Informacion de Perfil"
                 description={usuario.detalles}
                 details={{
                     ...(usuario.telefono ? { Telefono: usuario.telefono } : {}),
-                    "Correo Ucab": usuario.correo,
+                    ...(visitante ? { "Correo Electronico": usuario.correo } : {"Correo Ucab":usuario.correo}),
+
                   }}
                 action={
                   <Tooltip content="Editar Detalle">
@@ -122,7 +124,7 @@ export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,se
              
             </div>
             :
-            <div className="gird-cols-1 mb-12 grid">
+            <div className="gird-cols-1grid">
                     {/* FILTRO SEARCH */}
                     <div className='flex justify-start items-center -mb-5'>
                         <FechaInput
@@ -243,7 +245,7 @@ export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,se
           </CardBody>
 
           {open &&
-                <Dialog
+              <Dialog
                 fullWidth={true}
                 maxWidth="md"
                 open={open}

@@ -18,15 +18,15 @@ const Usuario = sequelize.define('Usuario', {
   },
   detalles: {
     type: DataTypes.TEXT,
-    allowNull: false
+    allowNull: true
   },
   correo: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   telefono: {
     type: DataTypes.NUMBER,
-    allowNull: false
+    allowNull: true
   },
   avatar: {
     type: DataTypes.BLOB

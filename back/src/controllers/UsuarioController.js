@@ -155,9 +155,9 @@ const historial_usuario_particular = async (req, res) => {
 
 //Crea un visitante
 const visitante_crear = async (req,res) => {
-    const { cedula,nombres,apellidos } = req.body;
+    const { cedula,nombres,apellidos,detalles,correo,telefono } = req.body;
     const usuario = await Usuario.findByPk(cedula);
-
+    console.log('hola mundo')
     //validamos que no este anteriormente
     if(usuario) 
         return res.json({error:'La cedula ya se encuentra registrada'});
@@ -173,6 +173,9 @@ const visitante_crear = async (req,res) => {
             nombres: nombres,
             apellidos: apellidos,
             estatus:1,
+            detalles:detalles,
+            correo:correo,
+            telefono:telefono,
     });
 
     const tarjeta = await Tarjeta.create(
@@ -193,7 +196,7 @@ const visitante_crear = async (req,res) => {
 
 //Actualiza un visitante
 const visitante_actualizar = async (req,res) => {
-    const { cedula,cedula_vieja,nombres,apellidos } = req.body;
+    const { cedula,cedula_vieja,nombres,apellidos,detalles,correo,telefono } = req.body;
     const usuario = await Usuario.findByPk(cedula);
 
     //validamos si la cedula es distinta a la que ya tenia
@@ -204,7 +207,7 @@ const visitante_actualizar = async (req,res) => {
     }
     //actualizamos el usuario
     const actualizar = await Usuario.update(
-        { cedula: cedula,nombres:nombres,apellidos:apellidos },
+        { cedula: cedula,nombres:nombres,apellidos:apellidos,detalles:detalles,correo:correo,telefono:telefono },
         { where: { cedula: cedula_vieja } }
     );  
     //no necesitamos actualizar las tarjetas, puesto que se actualizan en cascada
@@ -224,6 +227,7 @@ const cambiar_estado = async (req, res) => {
     res.json(user.estatus === 2);
 };
 
+//actualiza la informacion de un usuario telefono/detalles
 const actualizar_informacion = async (req,res) => {
     const { cedula,detalles,telefono } = req.body;
     await Usuario.update({ detalles,telefono }, {
