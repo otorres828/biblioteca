@@ -12,7 +12,7 @@ const routeUsuario = express.Router();
 
 routeUsuario.get('/todos_usuarios', verify,todos_usuarios); //Acceso Manual
 routeUsuario.get('/usuarios', verify,usuarios);
-routeUsuario.post('/historial_usuario_particular', verify,historial_usuario_particular);
+routeUsuario.post('/usuarios/historial_usuario_particular', verify,historial_usuario_particular);
 routeUsuario.get('/usuarios/cambiar_estado/:cedula',verify, cambiar_estado);
 
 //visitantes

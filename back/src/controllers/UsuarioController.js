@@ -70,8 +70,7 @@ const usuarios = async (req, res) => {
                     ],
                   },
             }
-        ],
-        
+        ],      
     });   
     res.json(usuarios);
 };
@@ -101,7 +100,20 @@ const historial_usuario_particular = async (req, res) => {
     const usuario = await Usuario.findOne({
         where: {
           cedula: cedula
-        }
+        },
+        include:[
+            {
+                model:Tarjeta,
+                include:[
+                    {
+                        model:Tipo,
+                    },
+                    {
+                        model:Carrera,
+                    }
+                ],
+            }
+        ],
     });
     //buscamos todas las tarjetas relacionadas a ese usuario
     const tarjetas = await Tarjeta.findAll({

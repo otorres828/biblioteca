@@ -16,6 +16,18 @@ const Usuario = sequelize.define('Usuario', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  detalles: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
+  correo: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  telefono: {
+    type: DataTypes.NUMBER,
+    allowNull: false
+  },
   avatar: {
     type: DataTypes.BLOB
   },

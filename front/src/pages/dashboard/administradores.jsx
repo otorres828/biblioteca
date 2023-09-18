@@ -6,6 +6,7 @@ import {
     CardBody,
     Typography,
     Switch,
+    Button
   } from "@material-tailwind/react";
 import { useSnackbar } from "notistack";
 import AgregarAdministrador from "../../components/AgregarAdministrador";
@@ -129,9 +130,9 @@ import AgregarAdministrador from "../../components/AgregarAdministrador";
                           </td>
 
                           <td className={className}>
-                            <button className="bg-blue-500 font-semibold rounded-lg p-3 text-white cursor-pointer" onClick={() => { agregar_administrador(id,nombre_completo,nick,permisos) }}>
+                            <Button variant="text" size="sm" onClick={() => { agregar_administrador(id,nombre_completo,nick,permisos) }}>
                               Editar
-                            </button>
+                            </Button>
                           </td>
                         </tr>
                       );

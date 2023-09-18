@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel-3';
 
-function FechaInput({ fechaInicio, fechaFin, setFechaInicio, setFechaFin, tipoAcceso=null, setTipoAcceso=null,personalizada=null,boton=null}) {
+function FechaInput({ fechaInicio, fechaFin, setFechaInicio, setFechaFin, tipoAcceso=null, setTipoAcceso=null,personalizada=null,boton=null,excel=null,historialUsuario=null,usuario=null}) {
   function subtractHours(date, hours) {
     date.setHours(date.getHours() - hours);
     return date;
@@ -61,6 +62,17 @@ function FechaInput({ fechaInicio, fechaFin, setFechaInicio, setFechaFin, tipoAc
             setFechaFin(formattedDate);
           }}
         />
+
+        {/* EXCEL */}
+        {excel && historialUsuario.length>0 &&
+                        <ReactHTMLTableToExcel
+                            className=" shadow-lg bg-green-300  rounded-lg p-3 mr-3"
+                            table="historial"
+                            filename={`Historial de ${usuario.cedula}`}
+                            filetype="xls"
+                            sheet={`Cedula: ${usuario.cedula}`}
+                            buttonText="Excel"/>
+                    } 
       </div>
     </div>
   );
