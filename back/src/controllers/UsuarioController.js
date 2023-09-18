@@ -224,6 +224,13 @@ const cambiar_estado = async (req, res) => {
     res.json(user.estatus === 2);
 };
 
+const actualizar_informacion = async (req,res) => {
+    const { cedula,detalles,telefono } = req.body;
+    await Usuario.update({ detalles,telefono }, {
+        where: { cedula }
+    });
+    res.json({exito:"Actualizacion exitosa"})
+}
 
 const updateUser = async (req,res) => {
     const {  user_id,password,name, last_name,type } = req.body;
@@ -264,4 +271,5 @@ module.exports = { usuarios,
                     visitante_crear, 
                     visitante_actualizar,
                     cambiar_estado,
+                    actualizar_informacion,
                     updateUser, insertPhoto };

@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import ReactHTMLTableToExcel from 'react-html-table-to-excel-3';
 import PerfilUsuario from './../PerfilUsuario'
 import axios from './../../api/axios'
 
@@ -59,8 +58,8 @@ function HistorialUsuario({visitante=null,open,cedula,handleClose,headers}) {
         return tipoTexto;
     };
 
-    useEffect(()=>{
-        axios.post("/usuarios/historial_usuario_particular/",{cedula,fechaInicio,fechaFin}, {headers: headers})
+    function obtener_historial(){
+      axios.post("/usuarios/historial_usuario_particular/",{cedula,fechaInicio,fechaFin}, {headers: headers})
           .then((response) => {
             setHistorialUsuario(response.data.historial);
             setUsuario(response.data.usuario);
@@ -71,6 +70,10 @@ function HistorialUsuario({visitante=null,open,cedula,handleClose,headers}) {
             "Puerta de",
             "Estatus de Ingreso"
           ]);
+    }
+
+    useEffect(()=>{
+        obtener_historial();
     },[fechaInicio,fechaFin])
 
     return (
@@ -85,14 +88,16 @@ function HistorialUsuario({visitante=null,open,cedula,handleClose,headers}) {
                 ref={dialogRef} // Asignamos la referencia de función al componente Dialog
 
                 >
-                {/* <DialogTitle id="alert-dialog-title">
-                    <div className="text-2xl text-teal-900 font-bold text-center">
-                    Historial del {visitante ? 'Visitante' : 'Usuario'}: {usuario ? usuario.nombres+', '+usuario.apellidos : '...cargando...'}
-                    </div>
-                </DialogTitle> */}
-
                 <DialogContent>
-                    <PerfilUsuario usuario={usuario} visitante={visitante} historialUsuario={historialUsuario} fechaInicio={fechaInicio} setFechaInicio={setFechaInicio} fechaFin={fechaFin} setFechaFin={setFechaFin} obtener_tipo={obtener_tipo} />
+                    <PerfilUsuario usuario={usuario} 
+                    visitante={visitante} 
+                    historialUsuario={historialUsuario} 
+                    fechaInicio={fechaInicio} 
+                    setFechaInicio={setFechaInicio} 
+                    fechaFin={fechaFin} 
+                    setFechaFin={setFechaFin} 
+                    obtener_tipo={obtener_tipo} 
+                    obtener_historial={obtener_historial} />
                 </DialogContent>
 
                 <DialogActions>           

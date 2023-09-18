@@ -7,6 +7,7 @@ import {
     Tab,
     Tooltip,
     Chip,
+    Dialog,
   } from "@material-tailwind/react";
 import {
     HomeIcon,
@@ -16,10 +17,20 @@ import {
 import { ProfileInfoCard } from "./../widgets/cards";
 import { useEffect, useState } from "react";
 import FechaInput from "./FechaInput";
+import { DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import axios from "../api/axios";
 
-export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,setFechaInicio,fechaFin,setFechaFin,obtener_tipo}) {
+export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,setFechaInicio,fechaFin,setFechaFin,obtener_tipo,obtener_historial}) {
     const [value, setValue] = useState("1");
-
+    const [open, setOpen] = useState(false);
+    const [detalles, setDetalles] = useState();
+    const [telefono, setTelefono] = useState();
+    const token_biblioteca = localStorage.getItem("token_biblioteca");
+    const headers={
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token_biblioteca}`
+    }
     const handleChange = (newValue) => {
         setValue(newValue);
     };  
@@ -29,6 +40,25 @@ export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,se
         const fechaFormateada = fechaObj.toLocaleDateString('es-ES', opciones).replace('/', '-').replace('/', '-');
         const horaFormateada = fechaObj.toLocaleTimeString('es-ES', { hour12: true });
         return `${fechaFormateada} - ${horaFormateada}`;
+    }
+
+    function editarInformacion(){
+        setDetalles(usuario.detalles)
+        setTelefono(usuario.telefono)
+        setOpen(true)
+    }
+
+    function handleClose(){
+        setOpen(false);
+    }
+
+    const handleActualizar = () => {
+        axios.post('usuarios/actualizar/informacion',{cedula:usuario.cedula,detalles,telefono},{headers:headers}).
+        then((response)=>{
+            if(response.data.exito)
+                obtener_historial()
+            setOpen(false)
+        })
     }
 
     return (
@@ -80,14 +110,12 @@ export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,se
                 title="Informacion de Perfil"
                 description={usuario.detalles}
                 details={{
-                   
                     ...(usuario.telefono ? { Telefono: usuario.telefono } : {}),
                     "Correo Ucab": usuario.correo,
                   }}
-                  
                 action={
                   <Tooltip content="Editar Detalle">
-                    <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
+                    <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" onClick={(()=>{editarInformacion()})} />
                   </Tooltip>
                 }
               />
@@ -213,6 +241,55 @@ export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,se
             }
 
           </CardBody>
+
+          {open &&
+                <Dialog
+                fullWidth={true}
+                maxWidth="md"
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="editar-informacion"
+                aria-describedby="editar-informacion"
+              >
+                <DialogTitle>Editar Informacion</DialogTitle>
+                <DialogContent>
+                  <form className="w-full ">
+                    <div className="flex flex-wrap -mx-3">
+                      <div className="w-full px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+                          Detalles
+                        </label>
+                        <textarea
+                          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          placeholder="Escriba los nombres del visitante"
+                          required
+                          defaultValue={detalles}
+                          onChange={(e) => setDetalles(e.target.value)}
+                        ></textarea>
+                      </div>
+                      <div className="w-full px-3 mt-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+                          telefono
+                        </label>
+                        <input
+                          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          type="number"
+                          placeholder="Escriba los apellidos del visitante"
+                          required
+                          value={telefono}
+                          onChange={(e) => setTelefono(e.target.value)}
+                        />
+                      </div>
+        
+                    </div>
+                  </form>
+                </DialogContent>
+                <DialogActions>
+                  <button className="bg-blue-500 font-semibold rounded-lg p-3 text-white cursor-pointer" onClick={handleActualizar}>Actualizar</button>
+                  <button className="bg-red-500 font-semibold rounded-lg p-3 text-white cursor-pointer" onClick={handleClose}>Cancelar</button>
+                </DialogActions>
+              </Dialog>
+          }
       </>
     );
 }
