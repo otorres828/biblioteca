@@ -18,6 +18,7 @@ module.exports = function(io) {
     port.pipe(parser)
     
     parser.on('data', (data)=>{
+        console.log(data)
         if (data.includes('"Card"') && data.includes('"UID"') && data.includes('"iCardCode"') && data.includes('"iSiteCode"') && data.includes('"iCode"')) {
             const tarjeta= JSON.parse(data).Card;
             console.log('TARJETA DATOS: '+tarjeta)
@@ -30,17 +31,17 @@ module.exports = function(io) {
                 else
                     port.write('rj\n')
 
-                const userInfo = {
-                    estatus:estatus,
-                    cedula: cedula,
-                    nombre: nombre,
-                    carrera: carrera,
-                    tipo: tipo,
-                    avatar: avatar,
-                    error:error
-                };
+                // const userInfo = {
+                //     estatus:estatus,
+                //     cedula: cedula,
+                //     nombre: nombre,
+                //     carrera: carrera,
+                //     tipo: tipo,
+                //     avatar: avatar,
+                //     error:error
+                // };
                 //enviar datos del usuario al front en react con sockets
-                io.emit('mensaje_entrada', userInfo);
+                // io.emit('mensaje_entrada', userInfo);
             })
             .catch(error => {
                 console.error("Error al obtener al intentar valiar la tarjeta");

@@ -115,8 +115,7 @@ const entrar_salir = async (req, res) => {
       userInfo.nombre = nombre;
       userInfo.carrera = carrera;
       userInfo.tipo = tipo;
-
-      // Accede a io a través del objeto req.app
+ 
       const { io } = req.app;
 
       if (tipo_acceso == 'entrada') {
@@ -135,6 +134,8 @@ const entrar_salir = async (req, res) => {
 };
 
 const validar_tarjeta_entrada = async (req, res) => {
+  const { io } = req.app;
+
   const { iCardCode } = req.params;
   //obtnemos la tarjeta
   const tarjeta = await Tarjeta.findByPk(iCardCode);
@@ -156,6 +157,9 @@ const validar_tarjeta_entrada = async (req, res) => {
     const existingRecord = await Historial.findOne({ where: { fecha: data.fecha } });
     if (!existingRecord) 
       await Historial.create(data);
+    const userInfo={ estatus: "denied",error:"Usuario Desconocido" }
+    io.emit('mensaje_entrada',userInfo);
+
     return res.json({ estatus: "denied",error:"Usuario Desconocido" });
   }
 
@@ -227,11 +231,10 @@ const validar_tarjeta_entrada = async (req, res) => {
     if(usuario.estatus==2)
       data.estatus = 3;
 
-    console.log(usuario)
     // crea un registro en el historial
     await Historial.create(data);
     //retornamos la respuesta
-    return res.json({
+    const userInfo={
       estatus: data.estatus == 1 ? "ok" : (data.estatus == 3 ? "denied" : "no_passed"),
       cedula: usuario.cedula,
       nombre: usuario.nombres + ", " + usuario.apellidos,
@@ -239,7 +242,10 @@ const validar_tarjeta_entrada = async (req, res) => {
       tipo: tipo.nombre,
       avatar: usuario.avatar,
       error:"El usuario esta inactivo"
-    });
+    };
+    io.emit("mensaje_entrada", userInfo);
+
+    return res.json(userInfo);
   } else {
     // SI EL USUARIO NO EXISTE
     const data = {
@@ -250,11 +256,15 @@ const validar_tarjeta_entrada = async (req, res) => {
 
     // Registrar historial anonimo
     await Historial.create(data);
+    const userInfo={ estatus: "denied",error:"Usuario Desconocido" }
+    io.emit('mensaje_entrada',userInfo);
     return res.json({ estatus: "denied",error:"Usuario Desconocido"});
   }
 };
 
 const validar_tarjeta_salida = async (req, res) => {
+  const { io } = req.app;
+
   const { iCardCode } = req.params;
   //obtnemos la tarjeta
   const tarjeta = await Tarjeta.findByPk(iCardCode);
@@ -274,10 +284,12 @@ const validar_tarjeta_salida = async (req, res) => {
       tipo:2
     };
 
-  // registra historial a un usuario desconocido
-  const existingRecord = await Historial.findOne({ where: { fecha: data.fecha } });
-  if (!existingRecord) 
-    await Historial.create(data);
+    // registra historial a un usuario desconocido
+    const existingRecord = await Historial.findOne({ where: { fecha: data.fecha } });
+    if (!existingRecord) 
+      await Historial.create(data);
+    const userInfo={ estatus: "denied",error:"Usuario Desconocido" }
+    io.emit('mensaje_salida',userInfo);
     return res.json({ estatus: "denied",error:"Usuario Desconocido" });
   }
 
@@ -355,7 +367,7 @@ const validar_tarjeta_salida = async (req, res) => {
     // crea un registro en el historial
     await Historial.create(data);
     //retornamos la respuesta
-    return res.json({
+    const userInfo={
       estatus: data.estatus == 1 ? "ok" : (data.estatus == 3 ? "denied" : "no_passed"),
       cedula: usuario.cedula,
       nombre: usuario.apellidos + ", " + usuario.nombres,
@@ -363,7 +375,9 @@ const validar_tarjeta_salida = async (req, res) => {
       tipo: tipo.nombre,
       avatar: usuario.avatar,
       error:"Usuario Inactivo"
-    });
+    };
+    io.emit("mensaje_salida", userInfo);
+    return res.json(userInfo);
   } else {
     // Usage
     const data = {
@@ -375,6 +389,8 @@ const validar_tarjeta_salida = async (req, res) => {
 
     // la tarjeta no existe
     await Historial.create(data);
+    const userInfo={ estatus: "denied",error:"Usuario Desconocido" }
+    io.emit('mensaje_salida',userInfo);
     return res.json({ estatus: "denied" ,error:"Usuario Desconocido"});
   }
 };
