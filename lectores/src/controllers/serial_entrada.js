@@ -9,7 +9,7 @@ module.exports = function(io) {
         "Custom-Header": "Custom-Value"
     };
     const port = new SerialPort(
-        'COM4',
+        'COM3',
         {baudRate: 9600}
     )
     
