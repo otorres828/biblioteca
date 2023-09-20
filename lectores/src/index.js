@@ -33,13 +33,12 @@ app.use(express.json());
 
 // SE ESCUCHAN LOS PUERTOS SERIALES Y EL SOCKT
 // require('./controllers/pruebas.js')(io);
-require('./controllers/serial_salida.js')(io);
-require('./controllers/serial_entrada.js')(io);
+// require('./controllers/serial_salida.js')(io);
+// require('./controllers/serial_entrada.js')(io);
 
 // INICIAR SERVIDOR
 const PORT = process.env.PORT || PORT;
 server.listen(PORT,"0.0.0.0", () => {
-
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
 

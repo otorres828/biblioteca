@@ -2,14 +2,20 @@
 module.exports = function(io) {
     var SerialPort = require("serialport");
     var axios = require('axios');
-  
+    const dotenv = require('dotenv');
+    const path = require('path');
+    
+    dotenv.config({
+      path: path.resolve(__dirname,'.env')
+    });
+    
     const headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Custom-Header": "Custom-Value"
     };
     const port_salida = new SerialPort(
-        'COM4',
+        process.env.LECTOR_ENTRADA,
         {baudRate: 9600}
     )
     
