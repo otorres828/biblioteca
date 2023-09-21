@@ -45,7 +45,6 @@ function LectorSalidaSA({salidas,setSalidas,headers}) {
       });
   
       socket.on('mensaje_salida', (message) => {
-        console.log(message)
         // if(message.estatus!=='denied'){
           setUserData({
             cedula: `C.I. ${message.cedula ?? 'DESCONOCIDO'}`,
@@ -53,7 +52,7 @@ function LectorSalidaSA({salidas,setSalidas,headers}) {
             carrera: message.carrera,
             tipo: message.tipo,
             avatar:message.avatar ?? avatar,
-            estatus:message.estatus == 1 ? "PASO" : (message.estatus == 2 ? "NO PASO" : "RECHAZADO")
+            estatus:message.estatus == 'ok' ? "PASO" : (message.estatus == 'no_passed' ? "NO PASO" : "RECHAZADO")
           });
         // }
         switch(message.estatus){

@@ -28,7 +28,6 @@ function LectorEntradaSA({ingresos,setIngresos,headers}) {
     }
     
     function ultimo_ingreso(message){
-      console.log(message)
       setUserData({
         cedula: `C.I. ${message.Tarjetum ? message.Tarjetum.Usuario.cedula: 'DESCONOCIDO'}`,
         nombre: message.Tarjetum ? message.Tarjetum.Usuario.nombres +', '+ message.Tarjetum.Usuario.apellidos : 'DESCONOCIDO',
@@ -50,13 +49,14 @@ function LectorEntradaSA({ingresos,setIngresos,headers}) {
   
       socket.on('mensaje_entrada', (message) => {
         // if(message.estatus!=='denied'){
+          console.log(message.estatus)
           setUserData({
             cedula: `C.I. ${message.cedula ?? 'DESCONOCIDO'}`,
             nombre: message.nombre,
             carrera: message.carrera,
             tipo: message.tipo,
             avatar:message.avatar ?? avatar,
-            estatus:message.estatus == 1 ? "PASO" : (message.estatus == 2 ? "NO PASO" : "RECHAZADO")
+            estatus:message.estatus == 'ok' ? "PASO" : (message.estatus == 'no_passed' ? "NO PASO" : "RECHAZADO")
           });
         // }
         switch(message.estatus){

@@ -116,15 +116,15 @@ const entrar_salir = async (req, res) => {
       userInfo.carrera = carrera;
       userInfo.tipo = tipo;
  
-      const { io } = req.app;
+      // const { io } = req.app;
 
-      if (tipo_acceso == 'entrada') {
-        // Enviar datos del usuario al front en react con sockets
-        io.emit("mensaje_entrada", userInfo);
-      } else {
-        // Enviar datos del usuario al front en react con sockets
-        io.emit("mensaje_salida", userInfo);
-      }
+      // if (tipo_acceso == 'entrada') {
+      //   // Enviar datos del usuario al front en react con sockets
+      //   io.emit("mensaje_entrada", userInfo);
+      // } else {
+      //   // Enviar datos del usuario al front en react con sockets
+      //   io.emit("mensaje_salida", userInfo);
+      // }
 
       res.json({ estatus: "ok" });
     })
@@ -142,7 +142,6 @@ const validar_tarjeta_entrada = async (req, res) => {
   
   // Obtén la fecha y hora actual
   const fechaActual = new Date();
-  // Resta 4 horas a la fecha actual
   fechaActual.setHours(fechaActual.getHours());
 
   //validamos si la tarjeta existe
@@ -238,8 +237,8 @@ const validar_tarjeta_entrada = async (req, res) => {
       estatus: data.estatus == 1 ? "ok" : (data.estatus == 3 ? "denied" : "no_passed"),
       cedula: usuario.cedula,
       nombre: usuario.nombres + ", " + usuario.apellidos,
-      carrera:  tarjeta.estatus == 3 ? 'Desconocido' : (carrera ? carrera.nombre : 'Desconocido') ,
-      tipo: tipo.nombre,
+      carrera:  tarjeta.estatus == 3 ? 'DESCONOCIDO' : (carrera ? carrera.nombre : 'DESCONOCIDO') ,
+      tipo: tipo.nombre.toUpperCase(),
       avatar: usuario.avatar,
       error:"El usuario esta inactivo"
     };
@@ -370,9 +369,9 @@ const validar_tarjeta_salida = async (req, res) => {
     const userInfo={
       estatus: data.estatus == 1 ? "ok" : (data.estatus == 3 ? "denied" : "no_passed"),
       cedula: usuario.cedula,
-      nombre: usuario.apellidos + ", " + usuario.nombres,
-      carrera:  tarjeta.estatus == 3 ? 'Desconocido' : (carrera ? carrera.nombre : 'Desconocido') ,
-      tipo: tipo.nombre,
+      nombre: usuario.nombres + ", " + usuario.apellidos,
+      carrera:  tarjeta.estatus == 3 ? 'DESCONOCIDO' : (carrera ? carrera.nombre : 'DESCONOCIDO') ,
+      tipo: tipo.nombre.toUpperCase(),
       avatar: usuario.avatar,
       error:"Usuario Inactivo"
     };

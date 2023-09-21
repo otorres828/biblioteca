@@ -61,11 +61,12 @@ function LectorEntrada({ingresos,setIngresos}) {
       const socket = io(process.env.REACT_APP_API_URL);
       
       socket.on('connect', () => {
-          console.log('Socket connected!');
+          console.log('Socket connected lector entrada!');
       });
   
       socket.on('mensaje_entrada', (message) => {
         // if(message.estatus!=='denied'){
+          console.log('hola')
           setUserData({
             cedula: `C.I. ${message.cedula ?? 'DESCONOCIDO'}`,
             nombre: message.nombre,
@@ -97,7 +98,7 @@ function LectorEntrada({ingresos,setIngresos}) {
         socket.disconnect();
       };
 
-    }, []);
+    },[]);
   
   return (
         <div className="w-full lg:w-1/3">

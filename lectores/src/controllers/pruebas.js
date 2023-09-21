@@ -9,7 +9,7 @@ module.exports = function(io) {
     });
     
     const port = new SerialPort(
-        process.env.LECTOR_PRUEBA,
+        'COM3',
         {baudRate: 9600}
     ) 
     const parser = new SerialPort.parsers.Readline()
