@@ -27,27 +27,14 @@ module.exports = function(io) {
         console.log(data)
         if (data.includes('"Card"') && data.includes('"UID"') && data.includes('"iCardCode"') && data.includes('"iSiteCode"') && data.includes('"iCode"')) {
             const tarjeta= JSON.parse(data).Card;
-            console.log('TARJETA DATOS: '+tarjeta)
             axios.get(process.env.URL_API+"/control-acceso/validar-entrada/" + tarjeta.iCardCode, {headers: headers})
             .then(function(response) {
-                let {estatus,cedula,nombre,carrera,tipo,avatar,error} = response.data;
+                let {estatus} = response.data;
 
                 if(estatus==='ok')
                     port.write('ok\n')
                 else
                     port.write('rj\n')
-
-                // const userInfo = {
-                //     estatus:estatus,
-                //     cedula: cedula,
-                //     nombre: nombre,
-                //     carrera: carrera,
-                //     tipo: tipo,
-                //     avatar: avatar,
-                //     error:error
-                // };
-                //enviar datos del usuario al front en react con sockets
-                // io.emit('mensaje_entrada', userInfo);
             })
             .catch(error => {
                 console.error("Error al obtener al intentar valiar la tarjeta");

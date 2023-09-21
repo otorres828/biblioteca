@@ -96,37 +96,10 @@ const entrar_salir = async (req, res) => {
     return res.status(200).json({ error: "El usuario no tiene tarjeta activa" });
   }
 
-  let userInfo = {
-    avatar: '',
-    estatus: '',
-    cedula: '',
-    nombre: '',
-    carrera: '',
-    tipo: '',
-  };
-
   axios.get(`${process.env.URL_API}/control-acceso/validar-${tipo_acceso}/` + result[0].iCardCode, { headers: headers })
     .then(function(response) {
-    
-      let { estatus, cedula, nombre, carrera, tipo, avatar } = response.data;
-      userInfo.avatar = avatar;
-      userInfo.estatus = estatus;
-      userInfo.cedula = cedula;
-      userInfo.nombre = nombre;
-      userInfo.carrera = carrera;
-      userInfo.tipo = tipo;
- 
-      // const { io } = req.app;
-
-      // if (tipo_acceso == 'entrada') {
-      //   // Enviar datos del usuario al front en react con sockets
-      //   io.emit("mensaje_entrada", userInfo);
-      // } else {
-      //   // Enviar datos del usuario al front en react con sockets
-      //   io.emit("mensaje_salida", userInfo);
-      // }
-
-      res.json({ estatus: "ok" });
+      let { estatus } = response.data;
+      res.json({ estatus: estatus});
     })
     .catch(function(error) {
       res.status(500).send("Error en la solicitud");
