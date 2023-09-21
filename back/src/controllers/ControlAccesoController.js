@@ -6,9 +6,9 @@ const { Op } = require('sequelize');
 const sequelize = require('../../config/database.js');
 var axios = require('axios');
 const moment = require("moment");
-
 const Carrera = require("../models/Carrera.js");
 const Abscripcion = require("../models/Abscripcion.js");
+
 const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
@@ -498,9 +498,6 @@ const estadisticas_ingreso_hora = async (req, res) => {
     });
   }
 };
-
-
-
 
 module.exports = {validar_tarjeta_entrada, 
                   validar_tarjeta_salida, 

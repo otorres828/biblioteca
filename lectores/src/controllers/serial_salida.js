@@ -14,6 +14,7 @@ module.exports = function(io) {
         "Content-Type": "application/json",
         "Custom-Header": "Custom-Value"
     };
+    
     const port_salida = new SerialPort(
         process.env.LECTOR_ENTRADA,
         {baudRate: 9600}
