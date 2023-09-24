@@ -59,7 +59,7 @@ const comparePassword = async (password, hash) => {
 
 //genera el token
 const generateToken = (payload) => {
-    return jwt.sign(payload, SECRET_KEY, { expiresIn: '2d' });
+    return jwt.sign(payload, SECRET_KEY, { expiresIn: '30d' });
 };
   
 

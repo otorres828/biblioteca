@@ -66,7 +66,6 @@ function LectorEntrada({ingresos,setIngresos}) {
   
       socket.on('mensaje_entrada', (message) => {
         // if(message.estatus!=='denied'){
-          console.log('hola')
           setUserData({
             cedula: `C.I. ${message.cedula ?? 'DESCONOCIDO'}`,
             nombre: message.nombre,

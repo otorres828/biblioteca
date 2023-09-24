@@ -33,7 +33,6 @@ function LectorSalida({salidas,setSalidas,forzar}) {
     }
      
     function ultima_salida(message){
-      console.log(message)
       setUserData({
         cedula: `C.I. ${message.Tarjetum ? message.Tarjetum.Usuario.cedula: 'DESCONOCIDO'}`,
         nombre: message.Tarjetum ? (message.Tarjetum.Usuario.nombres +', '+ message.Tarjetum.Usuario.apellidos) : 'DESCONOCIDO',
