@@ -47,7 +47,7 @@ app.use(routerAdministrador);
 app.use(routerPruebas);
 
 // SE ESCUCHAN LOS PUERTOS SERIALES Y EL SOCKT
-// require('./controllers/pruebas.js')(io);
+require('./controllers/pruebas.js')(io);
 // require('./controllers/serial_salida.js')(io);
 // require('./controllers/serial_entrada.js')(io);
 
