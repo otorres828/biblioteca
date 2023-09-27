@@ -20,7 +20,7 @@ function Visitantes() {
   const [estatusFilter, setEstatusFilter] = useState("");
   const [buscar, setBuscar] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-  const [recordsPerPage, setRecordsPerPage] = useState(10);
+  const [recordsPerPage, setRecordsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
   const [agregar, setAgregar] = useState(false);
   const token_biblioteca = localStorage.getItem("token_biblioteca");
@@ -45,9 +45,10 @@ function Visitantes() {
       const apellido_y_nombre = data.Usuario.apellidos + ' ' + data.Usuario.nombres;
 
       const hasMatchInBuscar =
-        nombre_y_apellido.toLowerCase().includes(buscar.toLowerCase()) ||
-        apellido_y_nombre.toLowerCase().includes(buscar.toLowerCase()) ||
-        data.cedula.toString().includes(buscar)
+      (typeof nombre_y_apellido === 'string' ? nombre_y_apellido.toLowerCase() : '').includes(typeof buscar === 'string' ? buscar.toLowerCase() : '') ||
+      (typeof apellido_y_nombre === 'string' ? apellido_y_nombre.toLowerCase() : '').includes(typeof buscar === 'string' ? buscar.toLowerCase() : '') ||
+      data.cedula.toString().includes(buscar)
+    
   
       return  hasMatchInEstatus  && hasMatchInBuscar  ;
     });
@@ -99,7 +100,7 @@ function Visitantes() {
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white col-span-3 md:col-span-1"
               >
                 <option value="">Todo</option>
-                {[ 10, 20, 50, 100].map((value) => (
+                {[5, 10, 20, 50, 100].map((value) => (
                   <option key={value} value={value}>{value}</option>
                 ))}
               </select>

@@ -82,9 +82,10 @@ function Historial() {
       const nombre_y_apellido= data.nombres+' '+data.apellidos;
       const apellido_y_nombre = data.apellidos + ' ' + data.nombres;
       const hasMatchInBuscar =
-      nombre_y_apellido.toLowerCase().includes(buscar.toLowerCase()) ||
-      apellido_y_nombre.toLowerCase().includes(buscar.toLowerCase()) ||
+      (typeof nombre_y_apellido === 'string' ? nombre_y_apellido.toLowerCase() : '').includes(typeof buscar === 'string' ? buscar.toLowerCase() : '') ||
+      (typeof apellido_y_nombre === 'string' ? apellido_y_nombre.toLowerCase() : '').includes(typeof buscar === 'string' ? buscar.toLowerCase() : '') ||
       data.cedula.toString().includes(buscar)
+    
   
       // All filters must match
       return hasMatchInTipo && hasMatchInEstatus && hasMatchInTipoAcceso && hasMatchInCarrera && hasMatchInBuscar ;

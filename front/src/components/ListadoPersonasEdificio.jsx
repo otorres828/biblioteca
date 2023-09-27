@@ -93,8 +93,8 @@ function ListadoPersonasEdificio({open,personas,handleClose}) {
                                         const nombre_y_apellido = nombres + ' ' + apellidos;
                                         const apellido_y_nombre = apellidos + ' ' + nombres;
                                         return (
-                                            nombre_y_apellido.toLowerCase().includes(buscar.toLowerCase()) ||
-                                            apellido_y_nombre.toLowerCase().includes(buscar.toLowerCase()) ||
+                                            (typeof nombre_y_apellido === 'string' ? nombre_y_apellido.toLowerCase() : '').includes(typeof buscar === 'string' ? buscar.toLowerCase() : '') ||
+                                            (typeof apellido_y_nombre === 'string' ? apellido_y_nombre.toLowerCase() : '').includes(typeof buscar === 'string' ? buscar.toLowerCase() : '') ||
                                             cedula.toString().includes(buscar)
                                         );
                                     })
