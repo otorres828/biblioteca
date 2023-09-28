@@ -339,6 +339,10 @@ const validar_tarjeta_salida = async (req, res) => {
     if(usuario.estatus==2)
       data.estatus=3;
   
+    //validamos que la tarjeta este activa
+    if(tarjetaUsuario.estatus==2)
+      data.estatus = 3;
+
     // crea un registro en el historial
     await Historial.create(data);
     //retornamos la respuesta
@@ -349,7 +353,7 @@ const validar_tarjeta_salida = async (req, res) => {
       carrera:  tarjeta.estatus == 3 ? 'DESCONOCIDO' : (carrera ? carrera.nombre : 'DESCONOCIDO') ,
       tipo: tipo.nombre.toUpperCase(),
       avatar: usuario.avatar,
-      error:"Usuario Inactivo"
+      error: tarjetaUsuario.estatus==2 ? "Tarjeta Desactivada": "El usuario esta inactivo"
     };
     io.emit("mensaje_salida", userInfo);
     return res.json(userInfo);
