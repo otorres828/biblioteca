@@ -18,13 +18,7 @@ const routerPanel  = require('./routes/panel.routes.js');
 const routerEstadisticas  = require('./routes/estadisticas.routes.js');
 const routerAdministrador = require("./routes/administrador.routes.js");
 
-
 sequelize.sync().then(()=>console.log('corriendo'))
-// async function start() {
-//   await sequelize.seed("tipos");
-// }
-// start();
-
 
 let app = express();
 let server = http.createServer(app); 
