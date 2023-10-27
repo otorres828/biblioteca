@@ -28,7 +28,7 @@ function FechaInput({ fechaInicio, fechaFin, setFechaInicio, setFechaFin, tipoAc
           </button>
         </Link>
         :
-        !boton && <Link to='../' className={`text-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  col-span-6 md:col-span-2 `}>
+        !boton && <Link to='..' className={`text-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  col-span-6 md:col-span-2 `}>
           <button >
               Regresar al Panel de Control
           </button>
