@@ -50,7 +50,7 @@ function Indicadores({fechaInicio,fechaFin,tipoAcceso,headers}) {
 
   return (
     <>
-        <div className="mb-6 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mb-6 grid gap-y-10 gap-x-6 grid-cols-2 xl:grid-cols-4">
                {/*  TOTAL USUARIOS*/}
                <StatisticsCard
                 value={totalUsuariosRegistradosHoy}
