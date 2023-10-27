@@ -1,26 +1,13 @@
-var Sequelize = require('sequelize').Sequelize;
-var config = require('./config.js');
+const { Sequelize } = require('sequelize');
 
-var dbConfig = config;
-var sequelize = new Sequelize(
-    dbConfig.database,
-    dbConfig.username,
-    dbConfig.password,
-    {
-      host: dbConfig.host,
-      dialect: dbConfig.dialect,
-      dialectOptions: {
-        useUTC: false,
-        dateStrings: true,
-        typeCast: function (field, next) {
-          if (field.type === 'DATETIME') {
-            return field.string();
-          }
-          return next();
-        },
-      },
-      timezone: 'America/Caracas'
-    }
+const sequelize = new Sequelize(
+  'biblioteca',
+  null,
+  null,
+  {
+    dialect: 'sqlite',
+    host: './config/biblioteca.sqlite',
+  }
 );
 
 module.exports = sequelize;

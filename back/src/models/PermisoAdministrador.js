@@ -27,7 +27,7 @@ const PermisoAdministrador = sequelize.define('PermisoAdministrador', {
   },
 },{
   timestamps: false,
-  tableName: 'permiso_administrador'
+  tableName: 'permiso_administradores'
 })
 
 // PermisoAdministrador.belongsTo(Permiso, {

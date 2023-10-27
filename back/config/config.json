@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "biblioteca",
+    "host": "./config/biblioteca.sqlite",
+    "dialect": "sqlite"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "biblioteca",
+    "host": "./config/biblioteca.sqlite",
+    "dialect": "sqlite"
+  }
+}

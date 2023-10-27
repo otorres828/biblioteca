@@ -8,14 +8,23 @@ const path = require('path');
 dotenv.config({
   path: path.resolve(__dirname,'.env')
 });
-
+// --------------------DATABASE------------------------
+const sequelize = require("../config/database.js");
+// ----------------------------------------------------
 const routerAutenticacion = require('./routes/autenticacion.routes.js')
 const routerUsuario = require('./routes/usuario.routes.js')
 const routerControlAcceso = require('./routes/control-acceso.routes.js')
 const routerPanel  = require('./routes/panel.routes.js');
 const routerEstadisticas  = require('./routes/estadisticas.routes.js');
 const routerAdministrador = require("./routes/administrador.routes.js");
-const routerPruebas = require("./routes/pruebas.routes.js");
+
+
+sequelize.sync().then(()=>console.log('corriendo'))
+// async function start() {
+//   await sequelize.seed("tipos");
+// }
+// start();
+
 
 let app = express();
 let server = http.createServer(app); 
@@ -44,12 +53,6 @@ app.use(routerControlAcceso);
 app.use(routerPanel);
 app.use(routerEstadisticas);
 app.use(routerAdministrador);
-app.use(routerPruebas);
-
-// SE ESCUCHAN LOS PUERTOS SERIALES Y EL SOCKT
-require('./controllers/pruebas.js')(io);
-// require('./controllers/serial_salida.js')(io);
-// require('./controllers/serial_entrada.js')(io);
 
 // INICIAR SERVIDOR
 const PORT = process.env.PORT || 3000;
@@ -62,5 +65,6 @@ app.get('/', (req, res) => {
     const ipAddress = IP.address();
     res.send(ipAddress)
 })
+
 
 module.exports = app; // Cambiado de io a app
