@@ -168,7 +168,7 @@ const validar_tarjeta_entrada = async (req, res) => {
     const abscripcion = tarjetaUsuario.Abscripcion ;
 
    /*OBTENER FECHA ACTUAL */
-   const fec = `select NOW() as fecha`;
+   const fec = `select current_timestamp as fecha`;
    const r = await sequelize.query(fec, { type: sequelize.QueryTypes.SELECT });
    var mysqlDate = r[0].fecha; // Esta es la fecha y hora que recibiste de MySQL
    var date = moment(mysqlDate);
@@ -299,7 +299,7 @@ const validar_tarjeta_salida = async (req, res) => {
     const abscripcion = tarjetaUsuario.Abscripcion ;
 
     /*OBTENER FECHA ACTUAL */
-    const fec = `select NOW() as fecha`;
+    const fec = `select current_timestamp as fecha`;
     const r = await sequelize.query(fec, { type: sequelize.QueryTypes.SELECT });
     var mysqlDate = r[0].fecha; // Esta es la fecha y hora que recibiste de MySQL
     var date = moment(mysqlDate);
@@ -371,7 +371,7 @@ const validar_tarjeta_salida = async (req, res) => {
 const personas_edificio = async (req, res) => {
   try {
     /*OBTENER FECHA ACTUAL */
-    const fec = `select NOW() as fecha`;
+    const fec = `select current_timestamp as fecha`;
     const r = await sequelize.query(fec, { type: sequelize.QueryTypes.SELECT });
     var mysqlDate = r[0].fecha; // Esta es la fecha y hora que recibiste de MySQL
     var date = moment(mysqlDate);

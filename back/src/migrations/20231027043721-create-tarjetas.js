@@ -10,7 +10,6 @@ module.exports = {
       },
       iSiteCode: {
         type: Sequelize.INTEGER,
-        primaryKey: true
       },
       estatus: {
         type: Sequelize.ENUM('1', '0'),

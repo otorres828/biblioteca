@@ -2,7 +2,7 @@ const sequelize = require('../../config/database.js');
 const moment = require("moment");
 
 const que_hora_es = async (req, res) => {
-    const query = `select NOW() as fecha`;
+    const query = `select current_timestamp as fecha`;
 
     const result = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
 

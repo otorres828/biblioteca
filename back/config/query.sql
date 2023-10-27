@@ -161,9 +161,9 @@ CREATE TABLE `usuarios` (
 
 insert  into `usuarios`(`cedula`,`nombres`,`apellidos`,`detalles`,`correo`,`telefono`,`estatus`,`avatar`) values 
 (123,'euclides','matacho','relevante','caltaoca@gmail.com','041477757','1',NULL),
-(19111127,'Camila Andrea','Marchan Mendez','estudiante problematico','camila@est.ucab.edu.ve','04148899037','1','http://localhost:3000/imagenes/1.jpg'),
+(19111127,'Camila Andrea','Marchan Mendez','estudiante problematico','camila@est.ucab.edu.ve','04148899037','1','/1.jpg'),
 (25859600,'OLIVER','TORRES','','oatorres.19@est.ucab.edu.ve','04148848537','1',NULL),
-(26269828,'Oliver Andres','Torres Rivero','no entroego libro','oatorres.19@est.ucab.edu.ve','04148848537','2','http://localhost:3000/imagenes/2.jpg');
+(26269828,'Oliver Andres','Torres Rivero','no entroego libro','oatorres.19@est.ucab.edu.ve','04148848537','2','/2.jpg');
 
 
 

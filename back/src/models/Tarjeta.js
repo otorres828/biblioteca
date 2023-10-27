@@ -12,7 +12,7 @@ const Tarjeta = sequelize.define('Tarjeta', {
   },
   iSiteCode: {
     type: DataTypes.INTEGER,
-    primaryKey: true
+    // primaryKey: true
   },
   estatus: {
     type: DataTypes.ENUM('1', '0'),
@@ -54,8 +54,6 @@ const Tarjeta = sequelize.define('Tarjeta', {
   timestamps: false,
   tableName: 'tarjetas'
 })
-
-
 
 Tarjeta.belongsTo(Carrera, {
   foreignKey: 'carrera_id'

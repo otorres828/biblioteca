@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(
   'biblioteca',
-  null,
+  "root",
   null,
   {
     dialect: 'sqlite',

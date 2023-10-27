@@ -30,32 +30,9 @@ module.exports = {
         defaultValue: '2'
       }
     });
-
-    // Crear la tabla `permiso_administrador`
-    await queryInterface.createTable('permiso_administrador', {
-      administrador_id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        references: {
-          model: 'administradores',
-          key: 'id'
-        }
-      },
-      permiso_id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        references: {
-          model: 'permisos',
-          key: 'id'
-        }
-      }
-    });
   },
 
   down: async (queryInterface, Sequelize) => {
-    // Eliminar la tabla `permiso_administrador`
-    await queryInterface.dropTable('permiso_administrador');
-
     // Eliminar la tabla `administradores`
     await queryInterface.dropTable('administradores');
   }
