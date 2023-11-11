@@ -39,7 +39,7 @@ function LectorSalida({salidas,setSalidas,forzar}) {
         nombre: message.Tarjetum ? (message.Tarjetum.Usuario.nombres +', '+ message.Tarjetum.Usuario.apellidos) : 'DESCONOCIDO',
         carrera: message.Carrera ? message.Carrera.nombre : 'DESCONOCIDO',
         tipo: message.Tipo ? message.Tipo.nombre : 'DESCONOCIDO',
-        avatar:message.Tarjetum ? message.Tarjetum.Usuario.avatar : avatar,
+        avatar:message.Tarjetum ? (message.Tarjetum.Usuario.avatar ?? avatar) : avatar,
       });
       switch(message.estatus){
         case "1":

@@ -31,7 +31,7 @@ function LectorSalidaSA({salidas,setSalidas,headers}) {
         nombre: message.Tarjetum ? message.Tarjetum.Usuario.nombres +', '+ message.Tarjetum.Usuario.apellidos : 'DESCONOCIDO',
         carrera: message.Carrera ? message.Carrera.nombre : 'DESCONOCIDO',
         tipo: message.Tipo ? message.Tipo.nombre.toUpperCase() : '',
-        avatar:message.Tarjetum ? message.Tarjetum.Usuario.avatar : avatar,
+        avatar:message.Tarjetum ? (message.Tarjetum.Usuario.avatar ?? avatar) : avatar,
         estatus:message.estatus == 1 ? "PASO" : (message.estatus == 2 ? "NO PASO" : "RECHAZADO")
       });
     }
