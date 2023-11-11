@@ -6,6 +6,7 @@ dotenv.config({
   path: path.resolve(__dirname,'.env')
 });
 
+
 var development = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
