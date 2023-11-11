@@ -25,11 +25,11 @@ module.exports = {
         allowNull: true
       },
       telefono: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.STRING,
         allowNull: true
       },
       avatar: {
-        type: Sequelize.BLOB
+        type: Sequelize.STRING
       },
       estatus: {
         type: Sequelize.ENUM('1', '0'),
