@@ -1,10 +1,6 @@
-const express = require('express');
-const {
-    login
-} = require('../controllers/AutenticacionController.js');
+// src/routes/autenticacion.routes.js
+const { login } = require('../controllers/AutenticacionController.js');
 
-const routerAutenticacion = express.Router();
-
-routerAutenticacion.post('/login', login);
-
-module.exports = routerAutenticacion;
+module.exports = async function (fastify, options) {
+ fastify.post('/login', login);
+}
