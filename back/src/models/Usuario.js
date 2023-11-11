@@ -25,11 +25,11 @@ const Usuario = sequelize.define('Usuario', {
     allowNull: true
   },
   telefono: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.STRING,
     allowNull: true
   },
   avatar: {
-    type: DataTypes.BLOB
+    type: DataTypes.STRING
   },
   estatus: {
     type: DataTypes.ENUM('1', '0'),
