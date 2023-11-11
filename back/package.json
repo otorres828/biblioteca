@@ -25,6 +25,7 @@
     "mysql2": "^3.5.2",
     "nodemon": "^2.0.13",
     "sequelize": "^6.32.1",
+    "sequelize-cli": "^6.6.1",
     "serialport": "^9.0.2",
     "socket.io": "^4.7.1",
     "webpack": "^5.88.0",
