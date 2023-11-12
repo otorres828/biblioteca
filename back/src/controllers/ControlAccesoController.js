@@ -106,9 +106,7 @@ const entrar_salir = async (req, reply) => {
     });
 };
 
-const validar_tarjeta_entrada = async (req, reply) => {
-  const { io } = req.fastify;
-  
+const validar_tarjeta_entrada = async (req, reply, io) => {
   const { iCardCode } = req.params;
   //obtnemos la tarjeta
   const tarjeta = await Tarjeta.findByPk(iCardCode);
@@ -237,9 +235,7 @@ const validar_tarjeta_entrada = async (req, reply) => {
   }
 };
 
-const validar_tarjeta_salida = async (req, reply) => {
-  const { io } = req.app;
-
+const validar_tarjeta_salida = async (req, reply, io) => {
   const { iCardCode } = req.params;
   //obtnemos la tarjeta
   const tarjeta = await Tarjeta.findByPk(iCardCode);
