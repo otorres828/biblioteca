@@ -9,13 +9,13 @@ const SECRET_KEY = 'KGGK>HKHVHJVKBKJKJBKBKHKBMKHB';
 const { Op } = require('sequelize');
 
 //obtener todos los permisos
-const permisos = async (req, res) => {
+const permisos = async (req, reply) => {
     const permisos = await Permiso.findAll();
-    res.status(200).json(permisos);
+    reply.code(200).send(permisos);
 };
 
 //obtiene los permisos de administrador logueado
-const permisos_administrador = async (req, res) => {
+const permisos_administrador = async (req, reply) => {
     //obtenemos el token del header
     const token = req.headers.authorization.split(' ')[1];
     //decodificamos el token
@@ -24,19 +24,19 @@ const permisos_administrador = async (req, res) => {
     const administrador_id = decodedToken.id;
 
     const permisos = await PermisoAdministrador.findAll({where:{administrador_id:administrador_id}});
-    res.status(200).json(permisos);
+    reply.send(permisos);
 };
 
 //crea un administrador
 const saltRounds = 10;
 
-const crear_administrador = async (req, res) => {
+const crear_administrador = async (req, reply) => {
     const {nombre_completo,nick,clave,permisos} = req.body;
     const admin = await Administrador.findOne({where:{nick: nick} });
     
     if (admin) {
         // Si encuentra el administrador, devuelve un error
-        return res.status(200).json({ error: "Ya existe este el nick" });
+        return reply.code(200).send({ error: "Ya existe este el nick" });
     }
     const claveEncriptada = await bcrypt.hash(clave, saltRounds);
 
@@ -49,21 +49,21 @@ const crear_administrador = async (req, res) => {
         });
     });
         
-    res.status(200).send({mensaje:'Administrador creado con éxito',administrador});
+    reply.code(200).send({mensaje:'Administrador creado con éxito',administrador});
 }
 
 
 //obtiene todos los administradores con sus permisos
-const todos_administradores = async (req, res) => {
+const todos_administradores = async (req, reply) => {
     const administradores = await Administrador.findAll({
       where: { principal: { [Op.ne]: 1 } },
       include: 'permisos'
     });
-    res.json(administradores);
+    reply.send(administradores);
 };
   
 //cambiar estatus de administrador
-const cambiar_estado = async (req, res) => {
+const cambiar_estado = async (req, reply) => {
     const {administrador_id} =req.params;
     try {
       const admin = await Administrador.findOne({ where: { id: administrador_id } });
@@ -77,14 +77,14 @@ const cambiar_estado = async (req, res) => {
   
       await admin.update({ estatus: nuevoEstatus });
   
-      res.json(nuevoEstatus == 2);
+      reply.send(nuevoEstatus == 2);
     } catch (error) {
-      res.json('Error al realizar la consulta');
+      reply.send('Error al realizar la consulta');
     }
 };
 
 //crear administrador desde el cms
-const crear = async (req, res) => {
+const crear = async (req, reply) => {
   const {tipo}=req.params;
   const {id,nombre_completo,nick,permisos,clave}=req.body;
   if(tipo!=='crear'){
@@ -95,7 +95,7 @@ const crear = async (req, res) => {
         //validamos que no este anteriormente
         const admin_nick = await Administrador.findOne({ where: { nick: nick } });
         if(admin_nick) 
-            return res.json({error:'El nick ya se encuentra en uso por otro usuario'}); 
+            return reply.send({error:'El nick ya se encuentra en uso por otro usuario'}); 
     }
     admin.nick=nick;
     admin.nombre_completo=nombre_completo;
@@ -119,12 +119,12 @@ const crear = async (req, res) => {
         });
     });
   
-    res.status(200).send({mensaje:'Administrador actualizado con exito'});
+    reply.code(200).send({mensaje:'Administrador actualizado con exito'});
   }else{
     const admin = await Administrador.findOne({where:{nick: nick} });
     if (admin) {
         // Si encuentra el administrador, devuelve un error
-        return res.status(200).json({ error: "Ya existe este el nick" });
+        return reply.code(200).send({ error: "Ya existe este el nick" });
     }
     const claveEncriptada = await bcrypt.hash(clave, saltRounds);
     var administrador = await Administrador.create({nombre_completo,nick,clave: claveEncriptada});
@@ -134,13 +134,13 @@ const crear = async (req, res) => {
           permiso_id: permiso.id
       });
   });
-    res.status(200).send({mensaje:'Administrador creado con exito'});
+    reply.code(200).send({mensaje:'Administrador creado con exito'});
 
   }
 }
 
 //obtener los permisos del adminsitrador logueado
-const mis_permisos = async (req, res) => {
+const mis_permisos = async (req, reply) => {
     //obtenemos el token del header
     const token = req.headers.authorization.split(' ')[1];
     //decodificamos el token
@@ -157,7 +157,7 @@ const mis_permisos = async (req, res) => {
     
     const permisoIds = permisos.map(permiso => permiso.permiso_id);
     permisoIds.push(0)
-    res.status(200).json(permisoIds);
+    reply.code(200).send(permisoIds);
 }
 module.exports = {
                     permisos,

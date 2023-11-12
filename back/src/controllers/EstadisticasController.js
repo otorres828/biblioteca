@@ -6,7 +6,7 @@ const Tarjeta = require("../models/Tarjeta.js");
 const moment = require("moment");
 
 // Obtiene las estadisticas de ingreso por Usuarios en el rango seleccionado en el select y el intervalo escrito en el input. Ejempl: Semanas / 15
-const ingresos_usuarios_agregar = async (req, res) => {
+const ingresos_usuarios_agregar = async (req, reply) => {
     try {
         const dias = [];
         const ingresosCounts = [];
@@ -15,22 +15,22 @@ const ingresos_usuarios_agregar = async (req, res) => {
         const intervalo = req.body.intervalo;
         const tiempo = req.body.tiempo;
         const tipo_id = req.body.tipo_id;
-    
         // Calcular la fecha de inicio y fin basado en el intervalo y tiempo ingresados
         let cantidad=0;
         if(tiempo==1) cantidad=1;
         if(tiempo==2) cantidad=7;
         if(tiempo==3) cantidad=30;
         if(tiempo==4) cantidad=360;
-
+        
         const tiempo_total=cantidad*intervalo; //tiempo total en dias
         //obtenemos la fecha actual y le restamos el tiempo total   
         const hoy = new Date();
         const FechaInicio = new Date(hoy.setDate(hoy.getDate() - tiempo_total+1));
-
+        
         // Obtén la fecha en formato deseado
         let fechaFormateada = FechaInicio.toISOString().split('T')[0];
-
+        
+        console.log('aqui antes'+req.body)
         for (let day = 0, dia = 1; day < tiempo_total; day += cantidad, dia++) {
           fechaFormateada =  new Date(fechaFormateada);
           const fechaInicio = fechaFormateada;
@@ -55,19 +55,20 @@ const ingresos_usuarios_agregar = async (req, res) => {
           dias.push(`${formatoFecha(fechaFin)}`);
           ingresosCounts.push(counts);
         }
-    
+        console.log('aqui despues'+req.body)
+
         // Devolver los resultados
-        res.json({ dias, ingresosCounts });
+        reply.send({ dias, ingresosCounts });
     } catch (error) {
       console.error(error);
-      res.status(500).json({
-        error: 'Internal server error'
+      reply.code(500).send({
+        error: 'Error interno de servidor'
       });
     }
 };
 
 // Desagrega las estadisticas en el select y el intervalo escrito en el input. Ejempl: Semanas / 15
-const ingresos_usuarios_desagregar = async (req, res) => {
+const ingresos_usuarios_desagregar = async (req, reply) => {
   try {
       const dias = [];
       const ingresosCounts = [];
@@ -312,10 +313,10 @@ const ingresos_usuarios_desagregar = async (req, res) => {
             
   
       // Devolver los resultados
-      res.json({ dias, ingresosCounts });
+      reply.send({ dias, ingresosCounts });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    reply.code(500).send({
       error: 'Internal server error'
     });
   }

@@ -8,7 +8,7 @@ const Historial = require('../models/Historial.js');
 const sequelize = require('../../config/database.js');
 
 //Devuelve todos los usuarios para el acceso manual
-const todos_usuarios = async (req, res) => {
+const todos_usuarios = async (req, reply) => {
     const tarjetas = await Tarjeta.findAll({
         where: {
             estatus: 1 ,
@@ -40,11 +40,11 @@ const todos_usuarios = async (req, res) => {
         };
     });
 
-    res.json(usuariosList);
+    reply.send(usuariosList);
 };
 
 //Devuelve todos los usuarios (sin visitantes) para el modulo de usuarios
-const usuarios = async (req, res) => {
+const usuarios = async (req, reply) => {
     const usuarios = await Usuario.findAll({
         include:[
             {
@@ -72,11 +72,11 @@ const usuarios = async (req, res) => {
             }
         ],      
     });   
-    res.json(usuarios);
+    reply.send(usuarios);
 };
 
 //Devuelve todos los visitantes para el modulo de visitantes
-const visitantes = async (req, res) => {
+const visitantes = async (req, reply) => {
     const tarjetas = await Tarjeta.findAll({
         where: {
             estatus: 1 ,
@@ -90,11 +90,11 @@ const visitantes = async (req, res) => {
           
         ]  
     });   
-    res.json(tarjetas);
+    reply.send(tarjetas);
 };
 
 //Devuelve el historial de acceso de un usuario particular
-const historial_usuario_particular = async (req, res) => {
+const historial_usuario_particular = async (req, reply) => {
     const { cedula,fechaInicio,fechaFin } = req.body;
     //buscamos el usuario dada la cedula
     const usuario = await Usuario.findOne({
@@ -149,18 +149,18 @@ const historial_usuario_particular = async (req, res) => {
     //ordenamos el array por fecha
     historiales.sort((a, b) => b.fecha - a.fecha);
 
-    res.json({historial:historiales,usuario:usuario});   
+    reply.send({historial:historiales,usuario:usuario});   
 
 }
 
 //Crea un visitante
-const visitante_crear = async (req,res) => {
+const visitante_crear = async (req,reply) => {
     const { cedula,nombres,apellidos,detalles,correo,telefono } = req.body;
     const usuario = await Usuario.findByPk(cedula);
     console.log('hola mundo')
     //validamos que no este anteriormente
     if(usuario) 
-        return res.json({error:'La cedula ya se encuentra registrada'});
+        return reply.send({error:'La cedula ya se encuentra registrada'});
 
 
     //le creamos una tarjeta al usuario
@@ -190,12 +190,12 @@ const visitante_crear = async (req,res) => {
             fields: ["cedula","tipo_id","estatus", "iCardCode","iSiteCode"]
         })
     if(user && tarjeta)
-        return res.json({exito:'Visitante creado con exito'});
-    return res.json({error:'Ha ocurrido un error inesperado'});
+        return reply.send({exito:'Visitante creado con exito'});
+    return reply.send({error:'Ha ocurrido un error inesperado'});
 };
 
 //Actualiza un visitante
-const visitante_actualizar = async (req,res) => {
+const visitante_actualizar = async (req,reply) => {
     const { cedula,cedula_vieja,nombres,apellidos,detalles,correo,telefono } = req.body;
     const usuario = await Usuario.findByPk(cedula);
 
@@ -203,7 +203,7 @@ const visitante_actualizar = async (req,res) => {
     if(cedula!==cedula_vieja){
         //validamos que no este anteriormente
         if(usuario) 
-            return res.json({error:'La cedula ya se encuentra registrada'}); 
+            return reply.send({error:'La cedula ya se encuentra registrada'}); 
     }
     //actualizamos el usuario
     const actualizar = await Usuario.update(
@@ -213,30 +213,30 @@ const visitante_actualizar = async (req,res) => {
     //no necesitamos actualizar las tarjetas, puesto que se actualizan en cascada
 
     if(actualizar)
-        return res.json({exito:'Visitante creado con exito'});
-    return res.json({error:'Ha ocurrido un error inesperado'});
+        return reply.send({exito:'Visitante creado con exito'});
+    return reply.send({error:'Ha ocurrido un error inesperado'});
 };
 
 //cambiar estatus de usuario
-const cambiar_estado = async (req, res) => {
+const cambiar_estado = async (req, reply) => {
     const { cedula } = req.params;
     await Usuario.update({ estatus: sequelize.literal('CASE WHEN estatus = 1 THEN 2 ELSE 1 END') }, {
         where: { cedula }
     });
     const user = await Usuario.findByPk(cedula);
-    res.json(user.estatus === 2);
+    reply.send(user.estatus === 2);
 };
 
 //actualiza la informacion de un usuario telefono/detalles
-const actualizar_informacion = async (req,res) => {
+const actualizar_informacion = async (req,reply) => {
     const { cedula,detalles,telefono } = req.body;
     await Usuario.update({ detalles,telefono }, {
         where: { cedula }
     });
-    res.json({exito:"Actualizacion exitosa"})
+    reply.send({exito:"Actualizacion exitosa"})
 }
 
-const updateUser = async (req,res) => {
+const updateUser = async (req,reply) => {
     const {  user_id,password,name, last_name,type } = req.body;
     const user = await User.findOne({
         where: {
@@ -249,10 +249,10 @@ const updateUser = async (req,res) => {
     user.type = type;
 
     const actualizar = await User.save();
-    res.json( { mensaje: "User actualizado correctamente"});
+    reply.send( { mensaje: "User actualizado correctamente"});
 };
 
-const insertPhoto = async (req,res) => {
+const insertPhoto = async (req,reply) => {
     const {  user_id,photo } = req.body;
     const user = await User.findOne({
         where: {
@@ -262,7 +262,7 @@ const insertPhoto = async (req,res) => {
     user.photo = photo;
 
     const actualizar = await User.save();
-    res.json( { mensaje: "Foto cargada!"});
+    reply.send( { mensaje: "Foto cargada!"});
 };
 
 

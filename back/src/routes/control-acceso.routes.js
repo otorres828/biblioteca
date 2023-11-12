@@ -1,4 +1,4 @@
-const express = require('express');
+
 const verify = require('../middleware/verify.js');
 
 const { validar_tarjeta_entrada,
@@ -10,15 +10,15 @@ const { validar_tarjeta_entrada,
     estadisticas_ingreso_hora,
 } = require('../controllers/ControlAccesoController.js');
 
-const routerControlAcceso = express.Router();
+module.exports = async function (fastify, options) {
+    const verify = require('../middleware/verify.js');
 
-routerControlAcceso.get('/control-acceso/validar-entrada/:iCardCode', validar_tarjeta_entrada);
-routerControlAcceso.get('/control-acceso/validar-salida/:iCardCode', validar_tarjeta_salida);
-routerControlAcceso.get('/control-acceso/:tipo_acceso/:cedula/:tipo_id',verify, entrar_salir);
-routerControlAcceso.get('/control-acceso/estadisticas_ingreso_hora', verify,estadisticas_ingreso_hora);
-routerControlAcceso.get('/personas_edificio', verify,personas_edificio);
-routerControlAcceso.get('/ingresaron_salieron_hoy/:tipo_acceso',verify, ingresaron_salieron_hoy);
+    fastify.get('/control-acceso/validar-entrada/:iCardCode', validar_tarjeta_entrada);
+    fastify.get('/control-acceso/validar-salida/:iCardCode', validar_tarjeta_salida);
+    fastify.get('/control-acceso/:tipo_acceso/:cedula/:tipo_id',{preHandler:[verify]}, entrar_salir);
+    fastify.get('/control-acceso/estadisticas_ingreso_hora', {preHandler:[verify]},estadisticas_ingreso_hora);
+    fastify.get('/personas_edificio', {preHandler:[verify]},personas_edificio);
+    fastify.get('/ingresaron_salieron_hoy/:tipo_acceso',{preHandler:[verify]}, ingresaron_salieron_hoy);
 
-routerControlAcceso.post('/historial',verify, historial);
-module.exports = routerControlAcceso;
-
+    fastify.post('/historial',{preHandler:[verify]}, historial);
+}

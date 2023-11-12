@@ -1,5 +1,4 @@
-const express = require('express');
-const verify = require('../middleware/verify.js');
+
 const {
     obtener_estadisticas_entrada,
     ingresos_grafico,
@@ -9,15 +8,14 @@ const {
     ingresos_por_carrera_detallado,
     ingresos_personalizado
 } = require('../controllers/PanelController.js');
+const verify = require('../middleware/verify.js');
 
-const routerPanel = express.Router();
-
-routerPanel.post('/panel/obtener_estadisticas_entrada',verify, obtener_estadisticas_entrada);
-routerPanel.post('/panel/ingresos_grafico',verify, ingresos_grafico);
-routerPanel.post('/panel/ingresos_por_tipo_general', verify,ingresos_por_tipo_general);
-routerPanel.post('/panel/ingresos_por_tipo_detallado',verify, ingresos_por_tipo_detallado);
-routerPanel.post('/panel/ingresos_por_carrera_general',verify, ingresos_por_carrera_general);
-routerPanel.post('/panel/ingresos_por_carrera_detallado', verify,ingresos_por_carrera_detallado);
-routerPanel.post('/panel/ingresos_personalizado',verify, ingresos_personalizado);
-
-module.exports = routerPanel;
+module.exports = async function (fastify, options) {
+    fastify.post('/panel/obtener_estadisticas_entrada', {preHandler:[verify]}, obtener_estadisticas_entrada);
+    fastify.post('/panel/ingresos_grafico',{preHandler:[verify]}, ingresos_grafico);
+    fastify.post('/panel/ingresos_por_tipo_general', {preHandler:[verify]},ingresos_por_tipo_general);
+    fastify.post('/panel/ingresos_por_tipo_detallado',{preHandler:[verify]}, ingresos_por_tipo_detallado);
+    fastify.post('/panel/ingresos_por_carrera_general',{preHandler:[verify]}, ingresos_por_carrera_general);
+    fastify.post('/panel/ingresos_por_carrera_detallado', {preHandler:[verify]},ingresos_por_carrera_detallado);
+    fastify.post('/panel/ingresos_personalizado',{preHandler:[verify]}, ingresos_personalizado);
+}

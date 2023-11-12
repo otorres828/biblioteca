@@ -1,4 +1,3 @@
-// src/routes/autenticacion.routes.js
 const { login } = require('../controllers/AutenticacionController.js');
 
 module.exports = async function (fastify, options) {

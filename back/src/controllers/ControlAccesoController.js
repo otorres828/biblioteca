@@ -15,7 +15,7 @@ const headers = {
   "Custom-Header": "Custom-Value"
 };
 
-const historial = async (req, res) => {
+const historial = async (req, reply) => {
   const {fechaInicio,fechaFin} = req.body;
   const h = await Historial.findAll({
     attributes: ["id", "estatus", "fecha","tipo"],
@@ -63,11 +63,11 @@ const historial = async (req, res) => {
 
   hh.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
-  res.json(hh);
+  reply.send(hh);
 };
 
 // registra en el historial el acceso manual
-const entrar_salir = async (req, res) => {
+const entrar_salir = async (req, reply) => {
   const { cedula, tipo_acceso ,tipo_id} = req.params;
   const usuario = await Usuario.findOne( {
     where: {
@@ -79,7 +79,7 @@ const entrar_salir = async (req, res) => {
   });
 
   if (!usuario) {
-    return res.status(200).json({ error: "El usuario no tiene permiso" });
+    return reply.code(200).send({ error: "El usuario no tiene permiso" });
   }
 
   // Obtenemos la tarjeta activa del usuario
@@ -93,22 +93,22 @@ const entrar_salir = async (req, res) => {
   const result = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
 
   if (!result.length) {
-    return res.status(200).json({ error: "El usuario no tiene tarjeta activa" });
+    return reply.code(200).send({ error: "El usuario no tiene tarjeta activa" });
   }
 
   axios.get(`${process.env.URL_API}/control-acceso/validar-${tipo_acceso}/` + result[0].iCardCode, { headers: headers })
     .then(function(response) {
       let { estatus } = response.data;
-      res.json({ estatus: estatus});
+      reply.send({ estatus: estatus});
     })
     .catch(function(error) {
-      res.status(500).send("Error en la solicitud");
+      reply.code(500).send("Error en la solicitud");
     });
 };
 
-const validar_tarjeta_entrada = async (req, res) => {
-  const { io } = req.app;
-
+const validar_tarjeta_entrada = async (req, reply) => {
+  const { io } = req.fastify;
+  
   const { iCardCode } = req.params;
   //obtnemos la tarjeta
   const tarjeta = await Tarjeta.findByPk(iCardCode);
@@ -132,7 +132,7 @@ const validar_tarjeta_entrada = async (req, res) => {
     const userInfo={ estatus: "denied",error:"Usuario Desconocido" }
     io.emit('mensaje_entrada',userInfo);
 
-    return res.json({ estatus: "denied",error:"Usuario Desconocido" });
+    return reply.send({ estatus: "denied",error:"Usuario Desconocido" });
   }
 
   //obtenemos los datos relacionados a la tarjeta, como el Usuario y el Tipo de Usuario
@@ -220,7 +220,7 @@ const validar_tarjeta_entrada = async (req, res) => {
     };
     io.emit("mensaje_entrada", userInfo);
 
-    return res.json(userInfo);
+    return reply.send(userInfo);
   } else {
     // SI EL USUARIO NO EXISTE
     const data = {
@@ -233,11 +233,11 @@ const validar_tarjeta_entrada = async (req, res) => {
     await Historial.create(data);
     const userInfo={ estatus: "denied",error:"Usuario Desconocido" }
     io.emit('mensaje_entrada',userInfo);
-    return res.json({ estatus: "denied",error:"Usuario Desconocido"});
+    return reply.send({ estatus: "denied",error:"Usuario Desconocido"});
   }
 };
 
-const validar_tarjeta_salida = async (req, res) => {
+const validar_tarjeta_salida = async (req, reply) => {
   const { io } = req.app;
 
   const { iCardCode } = req.params;
@@ -265,7 +265,7 @@ const validar_tarjeta_salida = async (req, res) => {
       await Historial.create(data);
     const userInfo={ estatus: "denied",error:"Usuario Desconocido" }
     io.emit('mensaje_salida',userInfo);
-    return res.json({ estatus: "denied",error:"Usuario Desconocido" });
+    return reply.send({ estatus: "denied",error:"Usuario Desconocido" });
   }
 
   //obtenemos los datos relacionados a la tarjeta, como el Usuario y el Tipo de Usuario
@@ -356,7 +356,7 @@ const validar_tarjeta_salida = async (req, res) => {
       error: tarjetaUsuario.estatus==2 ? "Tarjeta Desactivada": "El usuario esta inactivo"
     };
     io.emit("mensaje_salida", userInfo);
-    return res.json(userInfo);
+    return reply.send(userInfo);
   } else {
     // Usage
     const data = {
@@ -370,12 +370,12 @@ const validar_tarjeta_salida = async (req, res) => {
     await Historial.create(data);
     const userInfo={ estatus: "denied",error:"Usuario Desconocido" }
     io.emit('mensaje_salida',userInfo);
-    return res.json({ estatus: "denied" ,error:"Usuario Desconocido"});
+    return reply.send({ estatus: "denied" ,error:"Usuario Desconocido"});
   }
 };
 
 // Funcion que retorna los que estan en biblioteca usuarios,estudiantes,visitantes,empleados (para el control de acceso)
-const personas_edificio = async (req, res) => {
+const personas_edificio = async (req, reply) => {
   try {
     /*OBTENER FECHA ACTUAL */
     const fec = `select NOW() as fecha`;
@@ -415,15 +415,15 @@ const personas_edificio = async (req, res) => {
       Visitantes: visitantes,
       Personas:result,
     };
-    res.status(200).json(responseObject);
+    reply.send(responseObject);
   } catch (error) {
     console.error(error);
-    res.status(200).json({ message: 'Ha ocurrido un error' });
+    reply.send({ message: 'Ha ocurrido un error' });
   }
 };
 
 // Obtiene todos los usuarios que han ingresado o salido hoy
-const ingresaron_salieron_hoy = async (req, res) => {
+const ingresaron_salieron_hoy = async (req, reply) => {
   const {tipo_acceso} = req.params;
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set the time to 00:00:00
@@ -461,11 +461,11 @@ const ingresaron_salieron_hoy = async (req, res) => {
     },
     order: [['fecha', 'DESC']]
   });
-  res.json(h);
+  reply.send(h);
 };
 
 // Obtiene las estadisticas de ingreso por hora desde las 8am-5pm
-const estadisticas_ingreso_hora = async (req, res) => {
+const estadisticas_ingreso_hora = async (req, reply) => {
   try {
     const hora = [];
     const ingresosCounts = [];
@@ -497,10 +497,10 @@ const estadisticas_ingreso_hora = async (req, res) => {
       ingresosCounts
     };
 
-    res.json(result);
+    reply.send(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    reply.code(500).send({
       error: 'Internal server error'
     });
   }

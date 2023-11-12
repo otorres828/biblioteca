@@ -6,7 +6,8 @@ const { Op } = require('sequelize');
 const Tarjeta = require("../models/Tarjeta.js");
 
 // Funcion para obtener las estadisticas del historial de acceso
-const obtener_estadisticas_entrada = async (req, res) => {
+const obtener_estadisticas_entrada = async (req, reply) => {
+  console.log('hola como estan todos');
   try {
     //obtener datos
     const fecha_inicio = req.body.fecha_inicio;
@@ -122,15 +123,15 @@ const obtener_estadisticas_entrada = async (req, res) => {
     };
 
     // envia la respuesta de las estadisticas
-    res.status(200).json(estadisticas);
+    reply.code(200).send(estadisticas);
   } catch (error) {
     console.error(error);
-    res.status(200).json({ message: 'Error al obtener las estadisticas' });
+    reply.code(200).send({ message: 'Error al obtener las estadisticas' });
   }
 };
 
 // Obtiene las estadisticas de ingresos al edificio en un rango de fecha para la grafica
-const ingresos_grafico = async (req, res) => {
+const ingresos_grafico = async (req, reply) => {
   try {
     const dias = [];
     const ingresosCounts = [];
@@ -170,17 +171,17 @@ const ingresos_grafico = async (req, res) => {
       ingresosCounts
     };
 
-    res.json(result);
+    reply.send(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    reply.code(500).send({
       error: 'Internal server error'
     });
   }
 };
 
 // Obtiene las estadisticas de ingreso por tipo de usuario en un rango de fecha de manera general
-const ingresos_por_tipo_general = async (req, res) => {
+const ingresos_por_tipo_general = async (req, reply) => {
   try {
     const tipos = [];
     const ingresosCounts = [];
@@ -219,17 +220,17 @@ const ingresos_por_tipo_general = async (req, res) => {
       ingresosCounts
     };
 
-    res.json(result);
+    reply.send(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    reply.code(500).send({
       error: 'Internal server error'
     });
   }
 };
 
 // Obtiene las estadisticas de ingreso por tipo de usuario en un rango de fecha de manera detallada
-const ingresos_por_tipo_detallado = async (req, res) => {
+const ingresos_por_tipo_detallado = async (req, reply) => {
   try {
     const dias = [];
     const ingresosEstudiantes = [];
@@ -374,10 +375,10 @@ const ingresos_por_tipo_detallado = async (req, res) => {
       ingresosVisitantes,
     };
 
-    res.json(result);
+    reply.send(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    reply.code(500).send({
       error: 'Internal server error'
     });
   }
@@ -385,7 +386,7 @@ const ingresos_por_tipo_detallado = async (req, res) => {
 };
 
 // Obtiene las estadisticas de ingreso por carrera en un rango de fecha de manera general
-const ingresos_por_carrera_general = async (req, res) => {
+const ingresos_por_carrera_general = async (req, reply) => {
   try {
     const carreras = [];
     const ingresosCounts = [];
@@ -434,17 +435,17 @@ const ingresos_por_carrera_general = async (req, res) => {
       ingresosCounts
     };
 
-    res.json(result);
+    reply.send(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    reply.code(500).send({
       error: 'Internal server error'
     });
   }
 };
 
 // Obtiene las estadisticas de ingreso por tipo de usuario en un rango de fecha de manera detallada
-const ingresos_por_carrera_detallado = async (req, res) => {
+const ingresos_por_carrera_detallado = async (req, reply) => {
   try {
     const dias = [];
     const ingresosInformatica = [];
@@ -599,17 +600,17 @@ const ingresos_por_carrera_detallado = async (req, res) => {
       ingresosRelacionesIndustriales
     };
 
-    res.json(result);
+    reply.send(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    reply.code(500).send({
       error: 'Internal server error'
     });
   }
    
 };
 
-const ingresos_personalizado = async (req, res) => {
+const ingresos_personalizado = async (req, reply) => {
   const { tipo_id, carrera_id } = req.body;
   try {
     const dias = [];
@@ -654,10 +655,10 @@ const ingresos_personalizado = async (req, res) => {
       ingresos,
     };
 
-    res.json(result);
+    reply.send(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    reply.code(500).send({
       error: 'Internal server error'
     });
   } 

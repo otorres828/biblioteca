@@ -1,4 +1,4 @@
-// seeds/administradores.js
+// seeds/administradoreplyjs
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

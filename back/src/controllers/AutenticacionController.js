@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const PermisoAdministrador = require('../models/PermisoAdministrador.js');
 const SECRET_KEY = 'KGGK>HKHVHJVKBKJKJBKBKHKBMKHB';
 
-const login = async (req, res) => {
+const login = async (req, reply) => {
     const {nick, clave} = req.body;
 
     // Consultar el modelo Administrador utilizando el nick proporcionado
@@ -14,14 +14,14 @@ const login = async (req, res) => {
 
     if (!administrador) {
         // Si no se encuentra el administrador, devuelve un error
-        return res.status(200).json({ error: "Administrador no disponible" });
+        return reply.code(200).send({ error: "Administrador no disponible" });
     }
     // Comparar la clave proporcionada con la clave almacenada en el modelo Administrador
     const isValidPass = await comparePassword(clave, administrador.clave);
 
     if (!isValidPass) {
         // Si la clave no es válida, devuelve un error
-        return res.status(401).json({ error: "Clave incorrecta" });
+        return reply.code(401).send({ error: "Clave incorrecta" });
     }
 
     // Si la clave es válida, devuelve un mensaje de éxito
@@ -41,7 +41,7 @@ const login = async (req, res) => {
     const permisoIds = permisos.map(permiso => permiso.permiso_id);
     permisoIds.push(0)
 
-    res.status(200).json({ token_biblioteca: token,administrador:admin,permisos:permisoIds});
+    reply.code(200).send({ token_biblioteca: token,administrador:admin,permisos:permisoIds});
 };
 
 //compara la clave que viene del usuario con la hasheada en la bdd

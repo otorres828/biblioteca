@@ -1,4 +1,4 @@
-// seeds/permiso_administradores.js
+// seeds/permiso_administradoreplyjs
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
