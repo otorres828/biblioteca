@@ -96,7 +96,7 @@ const entrar_salir = async (req, reply) => {
     return reply.code(200).send({ error: "El usuario no tiene tarjeta activa" });
   }
 
-  axios.get(`${process.env.URL_API}/control-acceso/validar-${tipo_acceso}/` + result[0].iCardCode, { headers: headers })
+  axios.get(`${process.env.URL_API}/control-acceso/validar-${tipo_acceso}/` + result[0].iCardCode +`/` + result[0].iSiteCode, { headers: headers })
     .then(function(response) {
       let { estatus } = response.data;
       reply.send({ estatus: estatus});
