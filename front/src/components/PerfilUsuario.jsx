@@ -72,7 +72,7 @@ export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,se
               <div className="flex items-center gap-6">
                 <Avatar
                   src={visitante ? avatar : usuario.avatar}
-                  alt="bruce-mars"
+                  alt="usuario"
                   size="xl"
                   className="rounded-lg shadow-lg shadow-blue-gray-500/40"
                 />
