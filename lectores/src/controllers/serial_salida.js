@@ -16,7 +16,7 @@ module.exports = function(io) {
     };
     
     const port_salida = new SerialPort(
-        process.env.LECTOR_ENTRADA,
+        process.env.LECTOR_SALIDA,
         {baudRate: 9600}
     )
     
@@ -27,7 +27,9 @@ module.exports = function(io) {
     parser.on('data', (data)=>{
         if (data.includes('"Card"') && data.includes('"UID"') && data.includes('"iCardCode"') && data.includes('"iSiteCode"') && data.includes('"iCode"')) {
             const tarjeta= JSON.parse(data).Card;
-            axios.get(process.env.URL_API+"/control-acceso/validar-salida/" + tarjeta.iCardCode, {headers: headers})
+            let url = process.env.URL_API+"/control-acceso/validar-salida/" + tarjeta.iCardCode + "/"+tarjeta.iSiteCode;
+            console.log(url)
+            axios.get(url, {headers: headers})
             .then(function(response) {
                 let {estatus} = response.data;
 

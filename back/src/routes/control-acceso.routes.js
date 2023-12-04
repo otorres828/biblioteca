@@ -11,11 +11,11 @@ const { validar_tarjeta_entrada,
 module.exports = async function (fastify, options) {
     const verify = require('../middleware/verify.js');
 
-    fastify.get('/control-acceso/validar-entrada/:iCardCode', async (req, reply) => {
+    fastify.get('/control-acceso/validar-entrada/:iCardCode/:iSiteCode', async (req, reply) => {
         const io = fastify.io; 
         await validar_tarjeta_entrada(req, reply, io); 
       }); 
-    fastify.get('/control-acceso/validar-salida/:iCardCode', async (req, reply) => {
+    fastify.get('/control-acceso/validar-salida/:iCardCode/:iSiteCode', async (req, reply) => {
         const io = fastify.io; 
         await validar_tarjeta_salida(req, reply, io);
     });       

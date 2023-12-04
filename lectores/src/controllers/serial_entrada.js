@@ -27,7 +27,7 @@ module.exports = function(io) {
         console.log(data)
         if (data.includes('"Card"') && data.includes('"UID"') && data.includes('"iCardCode"') && data.includes('"iSiteCode"') && data.includes('"iCode"')) {
             const tarjeta= JSON.parse(data).Card;
-            axios.get(process.env.URL_API+"/control-acceso/validar-entrada/" + tarjeta.iCardCode, {headers: headers})
+            axios.get(process.env.URL_API+"/control-acceso/validar-entrada/" + tarjeta.iCardCode  + "/"+tarjeta.iSiteCode, {headers: headers})
             .then(function(response) {
                 let {estatus} = response.data;
 

@@ -107,14 +107,20 @@ const entrar_salir = async (req, reply) => {
 };
 
 const validar_tarjeta_entrada = async (req, reply, io) => {
-  const { iCardCode } = req.params;
+  const { iCardCode,iSiteCode } = req.params;
   //obtnemos la tarjeta
-  const tarjeta = await Tarjeta.findByPk(iCardCode);
-  
+  const tarjeta = await Tarjeta.findOne({
+    where: {
+      iCardCode,
+      iSiteCode,
+    },
+  });7  
   // Obtén la fecha y hora actual
   const fechaActual = new Date();
   fechaActual.setHours(fechaActual.getHours());
 
+  console.log('oliver')
+  console.log([iCardCode,iSiteCode ])
   //validamos si la tarjeta existe
   if (!tarjeta) {
     const data = {
@@ -236,10 +242,15 @@ const validar_tarjeta_entrada = async (req, reply, io) => {
 };
 
 const validar_tarjeta_salida = async (req, reply, io) => {
-  const { iCardCode } = req.params;
-  //obtnemos la tarjeta
-  const tarjeta = await Tarjeta.findByPk(iCardCode);
+  const { iCardCode,iSiteCode } = req.params;
 
+  //obtnemos la tarjeta
+  const tarjeta = await Tarjeta.findOne({
+    where: {
+      iCardCode,
+      iSiteCode,
+    },
+  });
   // Obtén la fecha y hora actual
   const fechaActual = new Date();
 
@@ -263,6 +274,7 @@ const validar_tarjeta_salida = async (req, reply, io) => {
     io.emit('mensaje_salida',userInfo);
     return reply.send({ estatus: "denied",error:"Usuario Desconocido" });
   }
+
 
   //obtenemos los datos relacionados a la tarjeta, como el Usuario y el Tipo de Usuario
   const tarjetaUsuario = await Tarjeta.findOne({
