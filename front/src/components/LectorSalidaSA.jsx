@@ -29,7 +29,7 @@ function LectorSalidaSA({salidas,setSalidas,headers}) {
       setUserData({
         cedula: `C.I. ${message.Tarjetum ? message.Tarjetum.Usuario.cedula: 'DESCONOCIDO'}`,
         nombre: message.Tarjetum ? message.Tarjetum.Usuario.nombres +', '+ message.Tarjetum.Usuario.apellidos : 'DESCONOCIDO',
-        carrera: message.Carrera ? message.Carrera.nombre : 'DESCONOCIDO',
+        carrera: message.Carrera ? message.Carrera.nombre : '',
         tipo: message.Tipo ? message.Tipo.nombre.toUpperCase() : '',
         avatar:message.Tarjetum ? (message.Tarjetum.Usuario.avatar ?? avatar) : avatar,
         estatus:message.estatus == 1 ? "PASO" : (message.estatus == 2 ? "NO PASO" : "RECHAZADO")
