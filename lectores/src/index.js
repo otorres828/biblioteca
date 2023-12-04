@@ -40,7 +40,7 @@ app.use(express.json());
   pero la computadora solo tiene conectado un lector, debe de habilitarse solo el archivo 
   correspondiente a ese lector que se tiene habilitado.
 */
-// require('./controllers/pruebas.js')(io);
+require('./controllers/pruebas.js')(io);
 // require('./controllers/serial_entrada.js')(io);
 // require('./controllers/serial_salida.js')(io);
 /*--------------------FIN PUERTOS SERIALES------------------ */
