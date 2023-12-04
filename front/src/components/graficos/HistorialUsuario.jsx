@@ -59,10 +59,12 @@ function HistorialUsuario({visitante=null,open,cedula,handleClose,headers}) {
     };
 
     function obtener_historial(){
-      axios.post("/usuarios/historial_usuario_particular/",{cedula,fechaInicio,fechaFin}, {headers: headers})
+      axios.post("/usuarios/historial_usuario_particular",{cedula,fechaInicio,fechaFin}, {headers: headers})
           .then((response) => {
             setHistorialUsuario(response.data.historial);
             setUsuario(response.data.usuario);
+          }).catch((response)=>{
+            console.log(response.error)
           });
         if(visitante)
         setHead([

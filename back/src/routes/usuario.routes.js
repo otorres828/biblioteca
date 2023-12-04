@@ -13,7 +13,7 @@ module.exports = async function (fastify, options) {
 
     fastify.get('/todos_usuarios',{preHandler:[verify]},todos_usuarios); //Acceso Manual
     fastify.get('/usuarios',{preHandler:[verify]},usuarios);
-    fastify.post('/usuarios/historial_usuario_particular',{preHandler:[verify]},historial_usuario_particular);
+    fastify.post('/usuarios/historial_usuario_particular',historial_usuario_particular);
     fastify.get('/usuarios/cambiar_estado/:cedula', {preHandler:[verify]},cambiar_estado);
     fastify.post('/usuarios/actualizar/informacion',{preHandler:[verify]}, actualizar_informacion);
 
