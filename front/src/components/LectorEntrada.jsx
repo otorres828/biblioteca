@@ -35,7 +35,7 @@ function LectorEntrada({ingresos,setIngresos}) {
       setUserData({
         cedula: `C.I. ${message.Tarjetum ? message.Tarjetum.Usuario.cedula: 'DESCONOCIDO'}`,
         nombre: message.Tarjetum ? message.Tarjetum.Usuario.nombres +', '+ message.Tarjetum.Usuario.apellidos : 'DESCONOCIDO',
-        carrera: message.Carrera ? message.Carrera.nombre : 'DESCONOCIDO',
+        carrera: message.Carrera ? message.Carrera.nombre : '',
         tipo: message.Tipo ? message.Tipo.nombre : 'DESCONOCIDO',
         avatar:message.Tarjetum ? (message.Tarjetum.Usuario.avatar ? '/images/'+message.Tarjetum.Usuario.avatar : avatar) : avatar,
       });

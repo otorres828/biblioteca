@@ -192,9 +192,9 @@ function Historial() {
                 className="col-span-6 md:col-span-2 rounded border border-blue-100 p-3"
               >
                 <option value="">Todo - Estatus</option>
-                <option value="1">PASO</option>
-                <option value="2">NO PASO</option>
-                <option value="3">RECHAZADO</option>
+                <option value="1">Paso</option>
+                <option value="2">No Paso</option>
+                <option value="3">Rechazado</option>
               </select>
 
               {/* FECHA DE INICIO */}
@@ -324,11 +324,11 @@ function Historial() {
                             color={estatus == 1 ? "green" : "red"}
                             value={
                               estatus == 1
-                                ? "PASO"
+                                ? "Paso"
                                 : estatus == 2
-                                ? "NO PASO"
+                                ? "No Paso"
                                 : estatus == 3
-                                ? "RECHAZADO"
+                                ? "Rechazado"
                                 : ""
                             }
                             className="py-0.5 px-2 text-[12px] font-medium"

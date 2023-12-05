@@ -16,7 +16,7 @@ const Historial = sequelize.define('Historial', {
     allowNull: false
   },
   estatus: {
-    type: DataTypes.ENUM('1', '2','3'), //1: PASO 2:NO PASO 3: RECHAZADO
+    type: DataTypes.ENUM('1', '2','3'), //1: PASO 2:NO PASO 3: Rechazado
     defaultValue: '1'
   },
   tipo: {

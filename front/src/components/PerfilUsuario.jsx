@@ -228,7 +228,7 @@ export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,se
                                                 <Chip
                                                     variant="gradient"
                                                     color={estatus == 1 ? "green" : "red"}
-                                                    value={estatus == 1 ? "PASO" : estatus == 2 ? "NO PASO" : estatus == 3 ? "RECHAZADO" : ""}
+                                                    value={estatus == 1 ? "Paso" : estatus == 2 ? "No Paso" : estatus == 3 ? "Rechazado" : ""}
                                                     className="py-0.5 px-2 text-[12px] font-medium"
                                                 />
                                             </td>                               

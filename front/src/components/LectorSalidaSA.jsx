@@ -27,12 +27,12 @@ function LectorSalidaSA({salidas,setSalidas,headers}) {
      
     function ultima_salida(message){
       setUserData({
-        cedula: `C.I. ${message.Tarjetum ? message.Tarjetum.Usuario.cedula: 'DESCONOCIDO'}`,
+        cedula: `C.I. ${message.Tarjetum ? message.Tarjetum.Usuario.cedula: 'Desconocido'}`,
         nombre: message.Tarjetum ? message.Tarjetum.Usuario.nombres +', '+ message.Tarjetum.Usuario.apellidos : 'DESCONOCIDO',
         carrera: message.Carrera ? message.Carrera.nombre : '',
         tipo: message.Tipo ? message.Tipo.nombre.toUpperCase() : '',
         avatar:message.Tarjetum ? (message.Tarjetum.Usuario.avatar ? '/images/'+message.Tarjetum.Usuario.avatar : avatar) : avatar,
-        estatus:message.estatus == 1 ? "PASO" : (message.estatus == 2 ? "NO PASO" : "RECHAZADO")
+        estatus:message.estatus == 1 ? "Paso" : (message.estatus == 2 ? "No Paso" : "Rechazado")
       });
     }
     useEffect(() => {
@@ -52,7 +52,7 @@ function LectorSalidaSA({salidas,setSalidas,headers}) {
             carrera: message.carrera,
             tipo: message.tipo,
             avatar:message.avatar ? '/images/'+message.avatar: avatar ,
-            estatus:message.estatus == 'ok' ? "PASO" : (message.estatus == 'no_passed' ? "NO PASO" : "RECHAZADO")
+            estatus:message.estatus == 'ok' ? "Paso" : (message.estatus == 'no_passed' ? "No Paso" : "Rechazado")
           });
         // }
         switch(message.estatus){
