@@ -32,7 +32,7 @@ function LectorEntradaSA({ingresos,setIngresos,headers}) {
         cedula: `C.I. ${message.Tarjetum ? message.Tarjetum.Usuario.cedula: 'Desconocido'}`,
         nombre: message.Tarjetum ? message.Tarjetum.Usuario.nombres +', '+ message.Tarjetum.Usuario.apellidos : 'DESCONOCIDO',
         carrera: message.Carrera ? message.Carrera.nombre : '',
-        tipo: message.Tipo ? message.Tipo.nombre.toUpperCase() : '',
+        tipo: message.Tipo ? message.Tipo.nombre : '',
         avatar:message.Tarjetum ? (message.Tarjetum.Usuario.avatar ? '/images/'+message.Tarjetum.Usuario.avatar : avatar) : avatar,
         estatus:message.estatus == 1 ? "Paso" : (message.estatus == 2 ? "No Paso" : "Rechazado")
       });
