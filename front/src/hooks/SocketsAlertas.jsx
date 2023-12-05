@@ -26,6 +26,7 @@ const SocketsAlertas = () => {
     });
 
     socket.on('mensaje_salida', (message) => {
+      console.log(message)
       switch (message.estatus) {
         case 'ok':
           enqueueSnackbar(message.nombre+' ha sido salido', { variant: 'success'});

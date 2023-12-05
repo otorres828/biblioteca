@@ -114,13 +114,11 @@ const validar_tarjeta_entrada = async (req, reply, io) => {
       iCardCode,
       iSiteCode,
     },
-  });7  
+  }); 
   // Obtén la fecha y hora actual
   const fechaActual = new Date();
   fechaActual.setHours(fechaActual.getHours());
 
-  console.log('oliver')
-  console.log([iCardCode,iSiteCode ])
   //validamos si la tarjeta existe
   if (!tarjeta) {
     const data = {
@@ -165,11 +163,41 @@ const validar_tarjeta_entrada = async (req, reply, io) => {
   });
   
   if (tarjetaUsuario) { //SI LA TARJETA DEL USUARIO ES VALIDA
+
     const usuario = tarjetaUsuario.Usuario;
     const cedula= usuario.cedula;
     const tipo = tarjetaUsuario.Tipo ;
     const carrera = tarjetaUsuario.Carrera ;
     const abscripcion = tarjetaUsuario.Abscripcion ;
+    
+    //validamos que el usuario tenga permisos
+    if(usuario.estatus==0){
+      const userInfo={
+        estatus:  "denied",
+        cedula: usuario.cedula,
+        nombre: usuario.nombres + ", " + usuario.apellidos,
+        carrera:  tarjeta.estatus == 3 ? 'DESCONOCIDO' : (carrera ? carrera.nombre : 'DESCONOCIDO') ,
+        tipo: tipo.nombre.toUpperCase(),
+        avatar: usuario.avatar,
+        error:"El usuario esta deshabilitado"
+      };
+
+      const data = {
+        fecha: fechaActual,
+        estatus: 2,
+        tipo:1,
+        tarjeta_id: tarjetaUsuario.iCardCode,
+        tipo_id:tipo.id,
+        carrera_id:carrera ? carrera.id :null,
+        abscripcion_id:abscripcion ? abscripcion.id:null,
+      };
+      
+      await Historial.create(data);
+      io.emit("mensaje_entrada", userInfo);
+      return reply.send(userInfo);
+
+    }
+    
 
     /*OBTENER FECHA ACTUAL */
     const fec = `select NOW() as fecha`;
@@ -243,7 +271,6 @@ const validar_tarjeta_entrada = async (req, reply, io) => {
 
 const validar_tarjeta_salida = async (req, reply, io) => {
   const { iCardCode,iSiteCode } = req.params;
-
   //obtnemos la tarjeta
   const tarjeta = await Tarjeta.findOne({
     where: {
@@ -275,7 +302,6 @@ const validar_tarjeta_salida = async (req, reply, io) => {
     return reply.send({ estatus: "denied",error:"Usuario Desconocido" });
   }
 
-
   //obtenemos los datos relacionados a la tarjeta, como el Usuario y el Tipo de Usuario
   const tarjetaUsuario = await Tarjeta.findOne({
     where: {
@@ -284,7 +310,7 @@ const validar_tarjeta_salida = async (req, reply, io) => {
     include: [
       {
         model: Usuario,
-        attributes: ["avatar","nombres", "apellidos", "cedula"],
+        attributes: ["avatar","nombres", "apellidos", "cedula","estatus"],
       },
       {
         model: Tipo,
@@ -309,6 +335,35 @@ const validar_tarjeta_salida = async (req, reply, io) => {
     const carrera = tarjetaUsuario.Carrera ;
     const abscripcion = tarjetaUsuario.Abscripcion ;
 
+    //validamos que el usuario tenga permisos
+    if(usuario.estatus==0){
+      const userInfo={
+        estatus:  "denied",
+        cedula: usuario.cedula,
+        nombre: usuario.nombres + ", " + usuario.apellidos,
+        carrera:  tarjeta.estatus == 3 ? 'DESCONOCIDO' : (carrera ? carrera.nombre : 'DESCONOCIDO') ,
+        tipo: tipo.nombre,
+        avatar: usuario.avatar,
+        error:"El usuario esta deshabilitado"
+      };
+
+      const data = {
+        fecha: fechaActual,
+        estatus: 2,
+        tipo:2,
+        tarjeta_id: tarjetaUsuario.iCardCode,
+        tipo_id:tipo.id,
+        carrera_id:carrera ? carrera.id :null,
+        abscripcion_id:abscripcion ? abscripcion.id:null,
+      };
+
+      await Historial.create(data);
+      io.emit("mensaje_salida", userInfo);
+      return reply.send(userInfo);
+    }else{
+      console.log('aqui voy: '+usuario.estatus);
+    }
+    
     /*OBTENER FECHA ACTUAL */
     const fec = `select NOW() as fecha`;
     const r = await sequelize.query(fec, { type: sequelize.QueryTypes.SELECT });

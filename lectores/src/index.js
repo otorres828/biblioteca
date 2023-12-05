@@ -42,7 +42,7 @@ app.use(express.json());
 */
 // require('./controllers/pruebas.js')(io);
 // require('./controllers/serial_entrada.js')(io);
-// require('./controllers/serial_salida.js')(io);
+require('./controllers/serial_salida.js')(io);
 /*--------------------FIN PUERTOS SERIALES------------------ */
 
 
