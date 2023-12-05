@@ -7,7 +7,6 @@ const Tarjeta = require("../models/Tarjeta.js");
 
 // Funcion para obtener las estadisticas del historial de acceso
 const obtener_estadisticas_entrada = async (req, reply) => {
-  console.log('hola como estan todos');
   try {
     //obtener datos
     const fecha_inicio = req.body.fecha_inicio;

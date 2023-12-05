@@ -20,6 +20,7 @@ const routerControlAcceso = require('./routes/control-acceso.routes.js')
 const routerPanel  = require('./routes/panel.routes.js');
 const routerEstadisticas  = require('./routes/estadisticas.routes.js');
 const routerAdministrador = require("./routes/administrador.routes.js");
+const routerCargaMasiva = require("./routes/carga-masiva.routes.js");
 
 fastify.register(routerAutenticacion);
 fastify.register(routerAdministrador);
@@ -27,6 +28,7 @@ fastify.register(routerUsuario);
 fastify.register(routerControlAcceso);
 fastify.register(routerPanel);
 fastify.register(routerEstadisticas);
+fastify.register(routerCargaMasiva);
 
 /*-------------------------SOCKET-------------------------- */
 fastify.register(fastifySocketIO, {

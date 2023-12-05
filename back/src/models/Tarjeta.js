@@ -36,7 +36,7 @@ const Tarjeta = sequelize.define('Tarjeta', {
   },
   carrera_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: Carrera,
       key: 'id'
@@ -44,7 +44,7 @@ const Tarjeta = sequelize.define('Tarjeta', {
   },
   abscripcion_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: Abscripcion,
       key: 'id'
