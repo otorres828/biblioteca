@@ -110,7 +110,7 @@ export function DashboardNavbar() {
                 color="blue-gray"
                 onClick={() => setOpenConfigurator(dispatch, true)}
               >
-                                <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
+                <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
 
               </IconButton>
             </Tooltip>
@@ -119,7 +119,7 @@ export function DashboardNavbar() {
               <MenuHandler>
                 <Tooltip title="Menu"  placement="bottom">
                   <IconButton variant="text" color="blue-gray">
-              <Bars3Icon strokeWidth={3}  className="h-6 w-6 text-blue-gray-500" />
+              <Bars3Icon strokeWidth={3}  className="h-6 w-6 text-blue-gray-500 block xl:hidden" />
 
                   </IconButton>
                 </Tooltip>

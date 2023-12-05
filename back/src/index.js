@@ -65,8 +65,7 @@ fastify.listen(PORT, "0.0.0.0", (err, address) => {
 
 //Obtener el ip del servidor
 fastify.get("/", (req, reply) => {
-  const ipAddress = IP.address();
-  reply.send(ipAddress);
+  reply.send(IP.address());
 });
 
 module.exports = fastify;

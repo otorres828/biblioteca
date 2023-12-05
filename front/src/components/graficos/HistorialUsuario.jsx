@@ -82,7 +82,7 @@ function HistorialUsuario({visitante=null,open,cedula,handleClose,headers}) {
         <>
             <Dialog
                 fullWidth={true}
-                maxWidth={visitante ? 'sm' :'md'}
+                maxWidth={'md'}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"

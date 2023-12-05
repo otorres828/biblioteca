@@ -44,7 +44,7 @@ const routes = [
       },
       {
         icon: <BellIcon {...icon} />,
-        name: "Estadisticas Personalizada",
+        name: "Estadistica Personalizada",
         path: "/personalizada",
         element: <EstadisticaPersonalizada />,
         permission: 3

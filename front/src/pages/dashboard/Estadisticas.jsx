@@ -40,7 +40,7 @@ function Estadisticas() {
   },[agregar,tiempo,intervalo,tipo_id])
   
   return (
-      <div className='md:mx-2 mt-3 mb-6'>
+      <div className='md:mx-2 my-16'>
          {/* <button className="justify-end bg-green-500 hover:bg-green-700 font-semibold rounded-lg p-3 text-white cursor-pointer">Excel</button>
          <button className="justify-end bg-red-500 hover:bg-red-700 font-semibold rounded-lg p-3 text-white cursor-pointer">Pdf</button> */}
 
