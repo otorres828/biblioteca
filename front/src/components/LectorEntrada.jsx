@@ -71,7 +71,7 @@ function LectorEntrada({ingresos,setIngresos}) {
             nombre: message.nombre,
             carrera: message.carrera,
             tipo: message.tipo,
-            avatar:message.avatar ?? avatar,
+            avatar:message.avatar ? '/images/'+message.avatar: avatar ,
           });
         // }
         switch(message.estatus){

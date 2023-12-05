@@ -36,7 +36,7 @@ export function Dashboard() {
           )}
           <Route exact path={'carga-masiva'} element={<CargaMasiva />} />
         </Routes>
-        <div className="text-blue-gray-600 uvh-100">
+        <div className="text-blue-gray-600">
           <Footer />
         </div>
       </div>
