@@ -41,7 +41,7 @@ app.use(express.json());
   correspondiente a ese lector que se tiene habilitado.
 */
 // require('./controllers/pruebas.js')(io);
-// require('./controllers/serial_entrada.js')(io);
+require('./controllers/serial_entrada.js')(io);
 require('./controllers/serial_salida.js')(io);
 /*--------------------FIN PUERTOS SERIALES------------------ */
 
