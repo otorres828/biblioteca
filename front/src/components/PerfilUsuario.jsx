@@ -71,7 +71,7 @@ export function PerfilUsuario({usuario,visitante,historialUsuario,fechaInicio,se
             <div className="mb-10 md:flex items-center justify-between gap-6">
               <div className="flex items-center gap-6">
                 <Avatar
-                  src={visitante ? avatar : (usuario.avatar ?? avatar)}
+                  src={visitante ? avatar : (usuario.avatar ? '/images/'+usuario.avatar:avatar)}
                   alt="usuario"
                   size="xl"
                   className="rounded-lg shadow-lg shadow-blue-gray-500/40"
