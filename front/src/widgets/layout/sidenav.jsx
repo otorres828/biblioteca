@@ -93,28 +93,21 @@ export function Sidenav({ brandName, routes }) {
                 </Typography>
               </li>
             )}
-             <li >
-                    <NavLink to={`/panel-control`}>
-                    {({ isActive }) => (
-                        <Button
-                          variant={isActive ?"gradient" :'text'}
-                          color={'dark'
-                          }
-                          className="flex items-center gap-4 px-4 capitalize"
-                          fullWidth
-                        >
-                          <HomeIcon {...icon} />
-                          <Typography
-                            color="white"
-                            className="font-medium capitalize"
-                          >
-                            Panel de Control
-                          </Typography>
-                        </Button>
-                      )}
-
-                    </NavLink>
-                  </li>
+            <li>
+              <Link to={`/panel-control`}>
+                <Button
+                  variant={"gradient"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <HomeIcon {...icon} />
+                  <Typography color="white" className="font-medium capitalize">
+                    Panel de Control
+                  </Typography>
+                </Button>
+              </Link>
+            </li>
             {pages.map(
               ({ icon, name, path }, index) =>
                 permisos &&
@@ -127,8 +120,6 @@ export function Sidenav({ brandName, routes }) {
                           color={
                             isActive
                               ? sidenavColor
-                              : sidenavType === "dark"
-                              ? "white"
                               : "white"
                           }
                           className="flex items-center gap-4 px-4 capitalize"
@@ -147,16 +138,31 @@ export function Sidenav({ brandName, routes }) {
                   </li>
                 )
             )}
+            { permisos && permisos.find((permiso) => permiso.permiso_id == 7) && (
+                <Link to={`/panel-control/carga-masiva`}>
+                    <Button
+                      variant={"text"}
+                      color={"dark"}
+                      className="flex items-center gap-4 px-4 capitalize"
+                      fullWidth
+                    >
+                      <HomeIcon {...icon} />
+                      <Typography color="white" className="font-medium capitalize">
+                        Cargar Masiva
+                      </Typography>
+                    </Button>
+                </Link>
+                )}
             <hr />
-            <li onClick={cerrarSesion} class="">
-                <button
-                  class="middle w-full items-center gap-4 rounded-lg text-white px-4 py-3 font-sans text-xs font-bold capitalize transition-all hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button"
-                >
-                    <p class="block font-sans text-base font-medium capitalize leading-relaxed text-inherit antialiased">
-                      Cerrar Sesión
-                    </p>
-                </button>
+            <li onClick={cerrarSesion}>
+              <button
+                className="middle w-full items-center gap-4 rounded-lg px-4 py-3 font-sans text-xs font-bold capitalize text-white transition-all hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button"
+              >
+                <p className="block font-sans text-base font-medium capitalize leading-relaxed text-inherit antialiased">
+                  Cerrar Sesión
+                </p>
+              </button>
             </li>
           </ul>
         ))}

@@ -4,6 +4,7 @@ import { DashboardNavbar, Configurator, Footer } from "./../widgets/layout";
 import routes from "./../routes";
 import Sidenav from "../widgets/layout/sidenav";
 import { useMaterialTailwindController, setOpenConfigurator } from "./../context/index";
+import CargaMasiva from "../pages/dashboard/CargaMasiva";
 
 export function Dashboard() {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -33,8 +34,9 @@ export function Dashboard() {
                 <Route exact path={path} element={element} />
               ))
           )}
+          <Route exact path={'carga-masiva'} element={<CargaMasiva />} />
         </Routes>
-        <div className="text-blue-gray-600">
+        <div className="text-blue-gray-600 uvh-100">
           <Footer />
         </div>
       </div>
