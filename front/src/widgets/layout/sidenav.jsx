@@ -109,9 +109,9 @@ export function Sidenav({ brandName, routes }) {
               </Link>
             </li>
             {pages.map(
-              ({ icon, name, path }, index) =>
+              ({ icon, name, path ,permission}, index) =>
                 permisos &&
-                permisos.find((permiso) => permiso.permiso_id == index) && (
+                permisos.find((permiso) => permiso.permiso_id == permission) && (
                   <li key={name}>
                     <NavLink to={`/panel-control${path}`}>
                       {({ isActive }) => (

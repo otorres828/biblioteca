@@ -17,11 +17,11 @@ function AgregarAdministrador({ nuevo = null, open, handleClose, administrador =
 
   const todosPermisos= [
     {id:1,label:'Control de Acceso'},
-    {id:2,label:'Estadisticas'},
-    {id:3,label:'Historial'},
-    {id:4,label:'Usuarios'},
-    {id:5,label:'Visitantes'},
-    {id:6,label:'Acceso Manual'},
+    {id:2,label:'Historial'},
+    {id:3,label:'Usuarios'},
+    {id:4,label:'Visitantes'},
+    {id:5,label:'Acceso Manual'},
+    {id:6,label:'Estadisticas'},
   ];
   const handleAgregar = () => {
     if (nombre_completo && nick) {

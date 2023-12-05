@@ -36,38 +36,38 @@ const routes = [
         permission: 1
       },
       {
-        icon: <BellIcon {...icon} />,
-        name: "Estadisticas",
-        path: "/estadisticas",
-        element: <Estadisticas token_biblioteca={token_biblioteca}/>,
-        permission: 2
-      },
-      {
-        icon: <BellIcon {...icon} />,
-        name: "Estadistica Personalizada",
-        path: "/personalizada",
-        element: <EstadisticaPersonalizada />,
-        permission: 3
-      },
-      {
         icon: <TableCellsIcon {...icon} />,
         name: "Historial",
         path: "/historial",
         element: <Historial  token_biblioteca={token_biblioteca} />,
-        permission: 4
+        permission: 2
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Usuarios",
         path: "/usuarios",
         element: <Usuarios token_biblioteca={token_biblioteca}/>,
-        permission: 5
+        permission: 3
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Visitantes",
         path: "/visitantes",
         element: <Visitantes token_biblioteca={token_biblioteca}/>,
+        permission: 4
+      },
+      {
+        icon: <BellIcon {...icon} />,
+        name: "Estadisticas",
+        path: "/estadisticas",
+        element: <Estadisticas token_biblioteca={token_biblioteca}/>,
+        permission: 6
+      },
+      {
+        icon: <BellIcon {...icon} />,
+        name: "Estadistica Personalizada",
+        path: "/personalizada",
+        element: <EstadisticaPersonalizada />,
         permission: 6
       },
       {

@@ -39,7 +39,7 @@ export function Configurator() {
       }`}
     >
       <div className="flex items-start justify-between px-6 pt-8 pb-6">
-      {permisos && permisos.find(permiso => permiso.permiso_id == 6) &&
+      {permisos && permisos.find(permiso => permiso.permiso_id == 5) &&
         <div>
           <Typography variant="h5" color="blue-gray">
             Acceso Manual
@@ -58,7 +58,7 @@ export function Configurator() {
         </IconButton>
       </div>
 
-      {permisos && permisos.find(permiso => permiso.permiso_id == 6) &&   <AccesoManual />}      
+      {permisos && permisos.find(permiso => permiso.permiso_id == 5) &&   <AccesoManual />}      
       <div className="py-4 px-6">
         <div className="mb-12">
           <hr />
