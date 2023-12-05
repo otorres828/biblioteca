@@ -33,7 +33,7 @@ function LectorEntradaSA({ingresos,setIngresos,headers}) {
         nombre: message.Tarjetum ? message.Tarjetum.Usuario.nombres +', '+ message.Tarjetum.Usuario.apellidos : 'DESCONOCIDO',
         carrera: message.Carrera ? message.Carrera.nombre : '',
         tipo: message.Tipo ? message.Tipo.nombre.toUpperCase() : '',
-        avatar:message.Tarjetum ? (message.Tarjetum.Usuario.avatar ?? avatar) : avatar,
+        avatar:message.Tarjetum ? (message.Tarjetum.Usuario.avatar ? '/images/'+message.Tarjetum.Usuario.avatar : avatar) : avatar,
         estatus:message.estatus == 1 ? "PASO" : (message.estatus == 2 ? "NO PASO" : "RECHAZADO")
       });
     }
@@ -55,7 +55,7 @@ function LectorEntradaSA({ingresos,setIngresos,headers}) {
             nombre: message.nombre,
             carrera: message.carrera,
             tipo: message.tipo,
-            avatar:message.avatar ?? avatar,
+            avatar:message.avatar ? '/images/'+message.avatar: avatar ,
             estatus:message.estatus == 'ok' ? "PASO" : (message.estatus == 'no_passed' ? "NO PASO" : "RECHAZADO")
           });
         // }

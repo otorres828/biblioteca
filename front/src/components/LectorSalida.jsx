@@ -38,7 +38,7 @@ function LectorSalida({salidas,setSalidas,forzar}) {
         nombre: message.Tarjetum ? (message.Tarjetum.Usuario.nombres +', '+ message.Tarjetum.Usuario.apellidos) : 'DESCONOCIDO',
         carrera: message.Carrera ? message.Carrera.nombre : '',
         tipo: message.Tipo ? message.Tipo.nombre : 'DESCONOCIDO',
-        avatar:message.Tarjetum ? (message.Tarjetum.Usuario.avatar ?? avatar) : avatar,
+        avatar:message.Tarjetum ? (message.Tarjetum.Usuario.avatar ? '/images/'+message.Tarjetum.Usuario.avatar : avatar) : avatar,
       });
       switch(message.estatus){
         case "1":
@@ -74,7 +74,7 @@ function LectorSalida({salidas,setSalidas,forzar}) {
             nombre: message.nombre,
             carrera: message.carrera,
             tipo: message.tipo,
-            avatar:message.avatar ?? avatar,
+            avatar:message.avatar ? '/images/'+message.avatar: avatar ,
           });
         // }
         switch(message.estatus){
