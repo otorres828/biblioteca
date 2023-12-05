@@ -140,7 +140,7 @@ export function DashboardNavbar() {
                   </MenuItem>
                 </NavLink>}
 
-                {permisos && permisos.find(permiso => permiso.permiso_id == 2) &&
+                {permisos && permisos.find(permiso => permiso.permiso_id == 6) &&
                 <NavLink to={`/panel-control/estadisticas`}>
                   <MenuItem className="flex items-center gap-4">
                       Estadisticas
@@ -154,14 +154,14 @@ export function DashboardNavbar() {
                   </MenuItem> 
                 </NavLink>}
 
-                {permisos && permisos.find(permiso => permiso.permiso_id == 4) &&
+                {permisos && permisos.find(permiso => permiso.permiso_id == 2) &&
                   <NavLink to={`/panel-control/usuarios`}>
                   <MenuItem className="flex items-center gap-4">
                       Usuarios
                   </MenuItem>            
                 </NavLink>}
 
-                {permisos && permisos.find(permiso => permiso.permiso_id == 5) &&
+                {permisos && permisos.find(permiso => permiso.permiso_id == 4) &&
                   <NavLink to={`/panel-control/visitantes`}>
                   <MenuItem className="flex items-center gap-4">
                       Visitantes
